@@ -60,7 +60,7 @@ router.post("/",[
             if(err) throw err;
             res.json({token})
         })
-        console.log("New user has been created")
+        console.log(`New user ${user.firstname} has been added`)
 
     }catch (e) {
         console.log(e.message)
