@@ -1,0 +1,15 @@
+export const SET_ALERT = "SET_ALERT";
+export const REMOVE_ALERT = "REMOVE_ALERT";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAILED = "REGISTER_FAILED";
+export const USER_LOADED = "USER_LOADED";
+export const AUTH_ERR = "AUTH_ERR";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILED = "LOGIN_FAILED";
+export const LOGOUT = "LOGOUT";
+export const GET_ALL_PROJECTS = "GET_ALL_PROJECTS";
+export const GET_PROJECT_BY_ID = "GET_PROJECT_BY_ID";
+export const NEW_PROJECT = "NEW_PROJECT";
+export const PROJECT_MODIFIED = "PROJECT_MODIFIED";
+export const PROJECT_DELETED = "PROJECT_DELETED";
+export const PROJECT_ERROR = "PROJECT_ERROR";

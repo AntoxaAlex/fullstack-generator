@@ -41,13 +41,13 @@ router.post("/", [
     try {
         let user = await User.findOne({email});
         if(!user){
-            return res.status(400).json({msg: "Invalid credentials"})
+            return res.status(400).json({errors:[{msg: "Invalid credentials"}]});
         }
 
         //Check password
         const isMatch = await bcrypt.compare(password,user.password);
         if(!isMatch){
-            return res.status(400).json({msg: "Invalid credentials"});
+            return res.status(400).json({errors:[{msg: "Invalid credentials"}]});
         }
 
         //Create token
@@ -66,8 +66,5 @@ router.post("/", [
         console.log(e.message)
     }
 })
-
-//Logout user
-
 
 module.exports = router;

@@ -8,11 +8,6 @@ const User = require("../models/user");
 if (process.env.NODE_ENV !== 'production') {
     require("dotenv").config()
 }
-
-//Login user
-
-//Logout user
-
 //Register user
 router.post("/",[
     //name is required

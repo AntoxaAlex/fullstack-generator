@@ -22,7 +22,6 @@ router.get("/",auth, async(req,res)=>{
                 model: "File"
             }]
         });
-        projects.map(project=>console.log(project.frontend))
         res.json(projects)
     }catch (e) {
         console.log(e.message);
@@ -35,7 +34,7 @@ router.post("/", auth,
     [
         body("title","Title is required").not().isEmpty(),
         body("purpose","Purpose is required").not().isEmpty(),
-        body("goals","Add at least 3 goals").isLength({min:3}),
+        body("goals","Add at least 3 goals").isArray({min:3}),
         body("stack","Stack is required").not().isEmpty()
     ], async(req,res)=>{
         const errors = validationResult(req);
@@ -123,6 +122,7 @@ router.delete("/:id", auth, async(req,res)=>{
             _id: req.params.id
         });
         console.log("Project has been successfully removed")
+        res.json({status:"deleted"})
     }catch (e) {
         console.log(e.message);
         res.status(500).json({msg: "Server error"});

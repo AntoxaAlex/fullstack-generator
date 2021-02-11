@@ -23,10 +23,8 @@ const projectSchema = new mongoose.Schema({
     },
     goals:[
         {
-            goal:{
-                type: String,
-                required: true
-            }
+            type: String,
+            required: true
         }
     ],
     stack:{
