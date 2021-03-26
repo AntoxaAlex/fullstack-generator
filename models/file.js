@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
-const fileSchema = new mongoose.Schema({
+let fileSchema = new mongoose.Schema({
+    project:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Project"
+    },
     section:{
         type: String,
         required: true
@@ -9,10 +13,17 @@ const fileSchema = new mongoose.Schema({
       type: String,
       required: true
     },
-    purpose:{
+    title:{
         type: String,
         required: true
     },
+    features:[
+        {
+            text:{
+                type:String
+            }
+        }
+    ],
     subfiles:[
         {
             type:{

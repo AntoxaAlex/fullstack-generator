@@ -3,7 +3,9 @@ const app = express();
 const connectDB = require("./config/database")
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const path = require("path");
+const WSServer = require("express-ws")(app);
+const aWss = WSServer.getWss();
+
 
 if (process.env.NODE_ENV !== 'production') {
     require("dotenv").config()
@@ -21,6 +23,32 @@ app.use("/user",require("./routes/user"))
 app.use("/auth",require("./routes/auth"))
 app.use("/project",require("./routes/projects"))
 app.use("/project/:id/file",require("./routes/files"))
+
+const broadCastConnection = (ws,msg) => {
+    aWss.clients.forEach(client=>{
+        if(client.id === ws.id){
+            client.send(`User ${msg.name} is connected`)
+        }
+    })
+}
+
+const connectionHandler = (ws,msg) => {
+    ws.id = msg.project_id;
+    broadCastConnection(ws,msg)
+}
+
+app.ws("/",(ws,req)=>{
+    ws.send("You has been successfully connected");
+    ws.on("message",(msg)=>{
+        msg = JSON.parse(msg);
+        switch (msg.method) {
+            case "connection":
+                connectionHandler(ws,msg);
+                break;
+
+        }
+    })
+})
 
 //Connect MongoDB
 connectDB()

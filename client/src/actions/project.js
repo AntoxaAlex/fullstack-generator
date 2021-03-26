@@ -34,7 +34,7 @@ export const getProjectById = (id) => async dispatch =>{
 }
 
 //Create new project
-export const createProject = (title,purpose,stack,goals) => async dispatch => {
+export const createProject = (title,purpose,goals,frontArch,backArch) => async dispatch => {
     const config = {
         headers: {
             "Content-Type": "application/json"
@@ -44,7 +44,8 @@ export const createProject = (title,purpose,stack,goals) => async dispatch => {
         title,
         purpose,
         goals,
-        stack
+        frontArch,
+        backArch
     })
     try {
         const res = await axios.post("/project",body,config);
@@ -63,7 +64,7 @@ export const createProject = (title,purpose,stack,goals) => async dispatch => {
     }
 }
 
-export const editProject = (id,title,purpose,stack,goals) => async dispatch => {
+export const editProject = (reloadType,id,title,purpose,goals,users,frontend,backend,folders,checklist,interdependence,projectView,workingTime,theme) => async dispatch => {
     const config = {
         headers:{
             "Content-Type": "application/json"
@@ -72,8 +73,16 @@ export const editProject = (id,title,purpose,stack,goals) => async dispatch => {
     const body = JSON.stringify({
         title,
         purpose,
-        stack,
-        goals
+        goals,
+        users,
+        frontend,
+        backend,
+        folders,
+        checklist,
+        interdependence,
+        projectView,
+        workingTime,
+        theme
     })
     try {
         const res = await axios.put("/project/"+id,body,config);
@@ -81,7 +90,9 @@ export const editProject = (id,title,purpose,stack,goals) => async dispatch => {
             type: PROJECT_MODIFIED,
             payload: res.data
         })
-        dispatch(setAlert("Project is successfully modified","success"))
+        if(reloadType === "manual"){
+            dispatch(setAlert("Project is successfully modified","success"))
+        }
     }catch (e) {
         console.log(e.message);
         dispatch({
@@ -89,6 +100,7 @@ export const editProject = (id,title,purpose,stack,goals) => async dispatch => {
         })
     }
 }
+
 
 export const deleteProject = (id) => async dispatch =>{
     try {
@@ -106,3 +118,5 @@ export const deleteProject = (id) => async dispatch =>{
         })
     }
 }
+
+

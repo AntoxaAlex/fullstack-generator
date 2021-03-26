@@ -29,17 +29,23 @@ const Login = ({isAuthenticated, login}) =>{
     }
 
     return(
-        <div className="container">
+        <div id="signInDiv" className="container">
+            <h1 className="mb-3 text-center">Sign in</h1>
             <form onSubmit={(e)=>onSubmitForm(e)}>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
-                    <input type="email" className="form-control" id="email" name="email" value={email} onChange={(e)=>onChangeValue(e)}/>
+                    <input type="email" className="form-control" autoComplete="off" id="email" name="email" value={email} onChange={(e)=>onChangeValue(e)}/>
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password1</label>
+                    <label htmlFor="password" className="form-label">Password</label>
                     <input type="password" className="form-control" id="password" name="password" value={password} onChange={(e)=>onChangeValue(e)}/>
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <p className="my-3">
+                    Don't have an account? <Link to="/signup">Click here</Link>
+                </p>
+                <div className="text-center">
+                    <button type="submit" className="btn btn-lg btn-primary">Sign in</button>
+                </div>
             </form>
         </div>
     )

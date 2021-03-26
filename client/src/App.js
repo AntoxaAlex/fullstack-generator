@@ -15,8 +15,9 @@ import Alert from "./components/layout/Alert";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
-import NewProject from "./components/NewProject";
 import Project from "./components/Project";
+
+import ProjectProvider from "./context/ProjectContext";
 
 
 if(localStorage.token){
@@ -36,9 +37,10 @@ function App() {
               <Switch>
                   <Route path="/signin" component={Login}/>
                   <Route path="/signup" component={Register}/>
-                  <PrivateRoute path="/project/:id" component={Project}/>
-                  <PrivateRoute path="/new" component={NewProject}/>
-                  <PrivateRoute path="/" component={Home}/>
+                  <PrivateRoute exact path="/" component={Home}/>
+                  <ProjectProvider>
+                      <PrivateRoute path="/project/:id" component={Project}/>
+                  </ProjectProvider>
               </Switch>
           </Router>
       </Provider>

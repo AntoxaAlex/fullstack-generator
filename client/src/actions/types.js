@@ -13,3 +13,6 @@ export const NEW_PROJECT = "NEW_PROJECT";
 export const PROJECT_MODIFIED = "PROJECT_MODIFIED";
 export const PROJECT_DELETED = "PROJECT_DELETED";
 export const PROJECT_ERROR = "PROJECT_ERROR";
+export const GET_UI = "GET_UI"
+export const SET_TOOL = "SET_TOOL"
+export const SET_CANVAS = "SET_CANVAS"

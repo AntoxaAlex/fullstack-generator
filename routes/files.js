@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router({mergeParams: true});
-const mongoose = require("mongoose");
 const auth = require("../middleware/auth");
 const {body, validationResult} = require("express-validator");
 const Project = require("../models/project");
@@ -9,43 +8,85 @@ const File = require("../models/file");
 
 //Create new file
 router.post("/",auth,[
+    body("section", "Choose front-end section or back-end section").not().isEmpty(),
     body("type", "File type is required").not().isEmpty(),
-    body("purpose", "File purpose is required").not().isEmpty()
+    body("title", "File title is required").not().isEmpty()
 ], async(req,res)=>{
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()});
     }
-    const {section,type, purpose} = req.body;
+    const {folderIndex,section, type, title, features} = req.body;
     const fileObj = {};
+    fileObj.features = [];
+    fileObj.project = req.params.id
     fileObj.section = section;
     fileObj.type = type;
-    fileObj.purpose = purpose;
+    fileObj.title = title;
+    features.map(feature=>fileObj.features.push({text:feature}))
     try {
-        const file = new File(fileObj);
+        let file = await new File(fileObj);
         await file.save();
-        console.log(file)
-        console.log("File is created");
+        console.log("File is created")
 
-        const project = await Project.findById(req.params.id).populate({
+        let project = await Project.findById(req.params.id);
+        project[section].files.push(file)
+        project.folders[folderIndex].files.push({file:file._id})
+        await project.save();
+        project = await Project.findById(req.params.id).populate({
             path: "frontend",
-            populate: [{
-                path: "file",
-                model: "File"
-            }]
+            populate: {
+                path: "files",
+                populate:[{
+                    path: "file",
+                    model: "File"
+                }]
+
+            }
         }).populate({
             path: "backend",
-            populate: [{
-                path: "file",
-                model: "File"
+            populate: {
+                path: "files",
+                populate:[{
+                    path: "file",
+                    model: "File"
+                }]
+
+            }
+        }).populate({
+            path: "interdependence",
+            populate:[{
+                path: "receiver",
+                populate:{
+                    path: "file",
+                    model: "File"
+                }
             }]
-        });
-        if(section === "frontend"){
-            project.frontend.unshift(file);
-        }else if(section === "backend") {
-            project.backend.unshift(file);
-        }
-        await project.save();
+        }).populate({
+            path: "interdependence",
+            populate:[{
+                path: "sender",
+                populate:{
+                    path: "file",
+                    model: "File"
+                }
+            }]
+        }).populate({
+            path:"users",
+            populate:[{
+                path: "user",
+                model: "User"
+            }]
+        }).populate({
+            path: "folders",
+            populate: [{
+                path: "files",
+                populate: [{
+                    path: "file",
+                    model: "File"
+                }]
+            }]
+        }).populate("owner");
         res.json(project);
         console.log("File is added to project");
 
@@ -55,17 +96,148 @@ router.post("/",auth,[
     }
 })
 
+//EditFile
+router.put("/:file_id",auth,[
+    body("section", "Choose front-end section or back-end section").not().isEmpty(),
+    body("type", "File type is required").not().isEmpty(),
+    body("title", "File title is required").not().isEmpty()
+],async (req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()});
+    }
+    try{
+        const file =await File.findByIdAndUpdate(req.params.file_id, req.body)
+        await file.save()
+        let project = await Project.findById(req.params.id).populate({
+            path: "frontend",
+            populate: {
+                path: "files",
+                populate:[{
+                    path: "file",
+                    model: "File"
+                }]
+
+            }
+        }).populate({
+            path: "backend",
+            populate: {
+                path: "files",
+                populate:[{
+                    path: "file",
+                    model: "File"
+                }]
+
+            }
+        }).populate({
+            path: "interdependence",
+            populate:[{
+                path: "receiver",
+                populate:{
+                    path: "file",
+                    model: "File"
+                }
+            }]
+        }).populate({
+            path: "interdependence",
+            populate:[{
+                path: "sender",
+                populate:{
+                    path: "file",
+                    model: "File"
+                }
+            }]
+        }).populate({
+            path:"users",
+            populate:[{
+                path: "user",
+                model: "User"
+            }]
+        }).populate({
+            path: "folders",
+            populate: [{
+                path: "files",
+                populate: [{
+                    path: "file",
+                    model: "File"
+                }]
+            }]
+        }).populate("owner");
+        res.json(project);
+    }catch (e) {
+        console.log(e.message);
+        res.status(500).json({msg: "Server error"})
+    }
+})
+
 //Delete file
 router.delete("/:file_id", auth, async(req,res)=>{
     try{
-        const project = await Project.findById(req.params.id);
-        if(project.frontend.filter((file)=>file._id.toString() === req.params.file_id).length === 1){
-            const removeIndex = project.frontend.map(file=>file._id.toString().indexOf(req.params.file_id));
-            project.frontend.splice(removeIndex,1);
-        } else if(project.backend.filter((file)=>file._id.toString() === req.params.file_id).length === 1){
-            const removeIndex = project.backend.map(file=>file._id.toString().indexOf(req.params.file_id));
-            project.backend.splice(removeIndex,1);
+        const project = await Project.findById(req.params.id).populate({
+            path: "frontend",
+            populate: {
+                path: "files",
+                populate:[{
+                    path: "file",
+                    model: "File"
+                }]
+
+            }
+        }).populate({
+            path: "backend",
+            populate: {
+                path: "files",
+                populate:[{
+                    path: "file",
+                    model: "File"
+                }]
+
+            }
+        }).populate({
+            path: "interdependence",
+            populate:[{
+                path: "receiver",
+                populate:{
+                    path: "file",
+                    model: "File"
+                }
+            }]
+        }).populate({
+            path: "interdependence",
+            populate:[{
+                path: "sender",
+                populate:{
+                    path: "file",
+                    model: "File"
+                }
+            }]
+        }).populate({
+            path:"users",
+            populate:[{
+                path: "user",
+                model: "User"
+            }]
+        }).populate({
+            path: "folders",
+            populate: [{
+                path: "files",
+                populate: [{
+                    path: "file",
+                    model: "File"
+                }]
+            }]
+        }).populate("owner");
+        if(project.frontend.files.filter((file)=>file._id.toString() === req.params.file_id).length === 1){
+            const removeIndex = project.frontend.files.map(file=>file._id.toString().indexOf(req.params.file_id));
+            project.frontend.files.splice(removeIndex,1);
+        } else if(project.backend.files.filter((file)=>file._id.toString() === req.params.file_id).length === 1){
+            const removeIndex = project.backend.files.map(file=>file._id.toString().indexOf(req.params.file_id));
+            project.backend.files.splice(removeIndex,1);
         }
+
+        project.interdependence = project.interdependence.filter(file=>file.sender._id.toString() !== req.params.file_id && file.receiver._id.toString() !== req.params.file_id);
+        console.log(project.interdependence)
+
         await project.save();
         await File.findByIdAndRemove(req.params.file_id);
         res.json(project);
