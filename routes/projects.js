@@ -62,7 +62,7 @@ router.post("/", auth,
         projectObj.frontend.archType = frontArch;
         projectObj.backend.archType = backArch;
         projectObj.workingTime = 0;
-        projectObj.theme = "light"
+        projectObj.theme = "dark"
 
         try{
             let checklist = await Checklist.findOne({backArch: backArch, frontArch: frontArch});

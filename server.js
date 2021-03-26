@@ -3,6 +3,7 @@ const app = express();
 const connectDB = require("./config/database")
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const path = require("path");
 const WSServer = require("express-ws")(app);
 const aWss = WSServer.getWss();
 
@@ -52,7 +53,6 @@ app.ws("/",(ws,req)=>{
 
 //Connect MongoDB
 connectDB()
-
 
 if(process.env.NODE_ENV === "production"){
     //Set static folder

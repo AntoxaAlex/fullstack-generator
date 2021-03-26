@@ -7,7 +7,7 @@ const Navbar = ({auth,logout}) => {
     return (
         <ul className="main-nav nav justify-content-between">
             {auth.isAuthenticated && <Fragment>
-                <span id="spanId">{auth.user._id}</span>
+                <span id="spanId"><strong>id</strong>: {auth.user._id}</span>
                 <button type="button" className="transparentBtn mr-2" onClick={()=>logout()}><i className="fas fa-sign-out-alt"/></button>
             </Fragment>}
         </ul>

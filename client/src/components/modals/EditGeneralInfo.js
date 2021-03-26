@@ -1,5 +1,4 @@
 import React, {Fragment} from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 const EditGeneralInfo = ({inputData}) => {
     const {
@@ -15,7 +14,7 @@ const EditGeneralInfo = ({inputData}) => {
                     <Fragment>
                         {inputValue.map((goal,i)=>{
                             return(
-                                <input key={uuidv4()} className="form-control mb-3" name={inputName} value={inputValue[i]} onChange={(e)=>inputData.onChangeGoals(e,i)}/>
+                                <input key={i} className="form-control mb-3" name={inputName} value={inputValue[i]} onChange={(e)=>inputData.onChangeGoals(e,i)}/>
                             )
                         })}
                     </Fragment>

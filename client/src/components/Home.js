@@ -45,7 +45,7 @@ const Home = ({logout, getAllProjects, project:{projects,loading}}) =>{
     const findProject = (e) => {
         const{value} = e.target
         setSearchedText(value)
-        const selectedProjects = [...projectsState].filter(project=>project.title.toLowerCase().includes(value))
+        const selectedProjects = [...projectsState].filter(project=>project.title.toLowerCase().includes(value.toLowerCase()))
         setFilteredProjects(selectedProjects)
     }
 
@@ -70,7 +70,7 @@ const Home = ({logout, getAllProjects, project:{projects,loading}}) =>{
                                         <div id={"projectCard"+(i+1)} className="projectCard" onMouseEnter={()=>addHiddenPanel(i+1)} onMouseLeave={()=>removeHiddenPanel(i+1)}>
                                             <h3>{project.title}</h3>
                                             <p>Completed: {completePer(project)}%</p>
-                                            <Link to={"/project/" + project._id} className="btn btn-sm btn-outline-light">Go</Link>
+                                            <Link to={"/project/" + project._id} className="btn btn-outline-light">Go</Link>
                                         </div>
                                     </div>
                                 )

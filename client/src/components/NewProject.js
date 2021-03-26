@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {createProject} from "../actions/project";
 import {setAlert} from "../actions/alert";
-import { v4 as uuidv4 } from 'uuid';
 
 const NewProject = ({project, createProject}) =>{
     const[formData, setFormData] = useState({
@@ -68,7 +67,7 @@ const NewProject = ({project, createProject}) =>{
                 <button type="button" className="btn btn-sm btn-outline-warning mb-3" onClick={()=>addGoal()}>Add goal</button>
                 {goals.map((goal,i)=>{
                     return(
-                        <div key={uuidv4()} className="mb-3 d-flex">
+                        <div key={i} className="mb-3 d-flex">
                             <input type="text" autoComplete="off" placeholder="Goal" className="form-control" id={"goal" + i} name="goal" value={goal} onChange={(e)=>onChangeGoals(e,i)}/>
                             <button type="button" className="btn btn-sm btn-outline-danger" onClick={()=>{removeGoal(i)}}><i className="fas fa-trash-alt"/></button>
                         </div>

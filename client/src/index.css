@@ -586,8 +586,8 @@ canvas{
     padding-top: 50px
   }
   .modal-div{
-    width: 200px;
-    height: 300px;
+    width: 90%;
+    height: 90%;
   }
 
   #project-nav{
@@ -634,8 +634,8 @@ canvas{
     padding:10px 100px;
   }
   .modal-div{
-   width: 400px;
-    height: 200px;
+    width: 90%;
+    height: 90%;
   }
   .settingBtnsDiv{
     margin-left: auto;
