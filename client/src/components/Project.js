@@ -62,10 +62,10 @@ const Project = ({getProjectById, deleteProject, editProject,createFile,logout, 
 
 
     useEffect(()=>{
-        if(localStorage.token){
+        if(auth.token){
             getProjectById(id)
         }
-    },[id])
+    },[id,auth.token])
     useEffect(()=>{
         if(project){
             setFormData({...formData,

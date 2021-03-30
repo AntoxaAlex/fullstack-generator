@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = function (req, res, next) {
+    console.log(req)
     //Get token from the header
     const token = req.header("x-auth-token");
     //Get secret from .env
