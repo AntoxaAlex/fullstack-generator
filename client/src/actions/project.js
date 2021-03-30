@@ -27,6 +27,8 @@ export const getProjectById = (id) => async dispatch =>{
         })
     }catch (e) {
         console.log(e.message);
+        const errors = e.response.data.errors;
+        errors.forEach(error=>dispatch(setAlert(error.msg, "danger")))
         dispatch({
             type: PROJECT_ERROR
         })
