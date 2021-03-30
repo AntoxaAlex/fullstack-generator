@@ -91,7 +91,7 @@ router.post("/", auth,
 )
 
 //Find project by id
-router.get("/:id", auth, async(req,res)=>{
+router.get("/:id", async(req,res)=>{
     try {
         let project = await Project.findById(req.params.id).populate({
             path: "frontend",

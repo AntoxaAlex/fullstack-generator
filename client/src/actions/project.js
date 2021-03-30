@@ -21,6 +21,7 @@ export const getAllProjects = () => async dispatch =>{
 export const getProjectById = (id) => async dispatch =>{
     try {
         const res = await axios.get("/project/"+id)
+        console.log(res.data)
         dispatch({
             type: GET_PROJECT_BY_ID,
             payload: res.data
