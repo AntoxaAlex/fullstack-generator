@@ -10,7 +10,7 @@ module.exports = async (req, res, next)  =>{
     const secret =await process.env.SECRETKEY;
 
     //Check if no token
-    if(!token){
+    if(!req.header("x-auth-token")){
         return res.status(401).json({msg: "You have no token, authorisation denied"});
     }
 
