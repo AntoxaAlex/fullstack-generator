@@ -233,26 +233,26 @@ const Project = ({getProjectById, deleteProject, editProject,createFile,logout, 
                 }
                 <div id="project-main">
                     <div id="project-content">
-                        <GeneralInfo
-                            id={id}
-                            project={project}
-                            onSubmitForm={(e)=>onSubmitProject(e)}
-                            onChangeValue={(e)=>onChangeValue(e)}
-                            onChangeGoals={(e,i)=>onChangeGoals(e,i)}
-                            deleteProject={(id)=>deleteProject(id)}
-                        />
-                        <Decomposition
-                            id={id}
-                            project={project}
-                        />
+                        {/*<GeneralInfo*/}
+                        {/*    id={id}*/}
+                        {/*    project={project}*/}
+                        {/*    onSubmitForm={(e)=>onSubmitProject(e)}*/}
+                        {/*    onChangeValue={(e)=>onChangeValue(e)}*/}
+                        {/*    onChangeGoals={(e,i)=>onChangeGoals(e,i)}*/}
+                        {/*    deleteProject={(id)=>deleteProject(id)}*/}
+                        {/*/>*/}
+                        {/*<Decomposition*/}
+                        {/*    id={id}*/}
+                        {/*    project={project}*/}
+                        {/*/>*/}
                         <Checklist
                             checklist={project.checklist}
                             changeCheckbox={(listIndex,liIndex)=>changeCheckbox(listIndex,liIndex)}
                         />
-                        {activeTabs.ui && <UI
-                            removeView={(e,i)=>removeView(e,i)}
-                            onSubmitUI={(e)=>onSubmitProject(e)}
-                        />}
+                        {/*{activeTabs.ui && <UI*/}
+                        {/*    removeView={(e,i)=>removeView(e,i)}*/}
+                        {/*    onSubmitUI={(e)=>onSubmitProject(e)}*/}
+                        {/*/>}*/}
                     </div>
                 </div>
             </main> : <Loading/>}
