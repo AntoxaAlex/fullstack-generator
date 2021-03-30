@@ -77,7 +77,7 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                     ctx = chart.chart.ctx;
                 ctx.clearRect(0,0,canvas.width,canvas.height)
                 ctx.restore();
-                let fontSize = document.body.scrollWidth < 415 ? 3 : 6 ;
+                let fontSize = 3 ;
                 ctx.font = fontSize + "em sans-serif";
                 ctx.textBaseline = "middle";
 
@@ -85,7 +85,7 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                     textX = Math.round((width - ctx.measureText(text).width) / 2),
                     textY = height / 2;
 
-                ctx.fillStyle = "#2193b0";
+                ctx.fillStyle = "#c3073f";
                 ctx.fillText(text, textX, textY);
                 ctx.save();
             }
@@ -97,8 +97,8 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                 datasets: [{
                     data: [completedTasksPer,100-completedTasksPer ],
                     backgroundColor: [
-                        "#2193b0",
-                        "rgba(255,255,255,0.2)"
+                        "#c3073f",
+                        "gray"
                     ],
                     borderWidth: 1
                 }],
@@ -130,33 +130,42 @@ const GeneralInfo = ({id,project,deleteProject}) => {
     if(!activeTabs.generalInfo) return null;
     return(
         <Fragment>
-            <div className="row generalRow">
-                <div className="col-12 col-lg-6 projectGridSection">
-                    <div className="d-flex justify-content-center">
-                        <h1>{formData.title}</h1>
-                        <span>
+            <div className="generalRow">
+                <div className="projectGridSection">
+                    <div className="">
+                        <h1 className="projectGridHeader">{formData.title}
+                        <span className="settingSpan">
                             <button type="button" className="editBtn" onClick={()=>editContent("title")}><i className="fas fa-cog"/></button>
-                        </span>
+                        </span></h1>
                     </div>
-                    <div className="row mb-3">
-                        <div className="col-12 col-lg-3">
-                            <p>Main purpose</p>
+                    <hr/>
+                    <div className="">
+                        <div className="">
+                            <h5>
+                                Main purpose
+                                <span className="settingSpan">
+                                    <button type="button" className="editBtn" onClick={()=>editContent("purpose")}><i className="fas fa-cog"/></button>
+                                </span>
+                            </h5>
                         </div>
-                        <div className="col-12 col-lg-9">
-                            <div className="d-flex justify-content-start align-items-center">
+                        <div className="">
+                            <div className="">
                                 <p className="generalInfoText m-0">{formData.purpose}</p>
-                                <span>
-                                        <button type="button" className="editBtn" onClick={()=>editContent("purpose")}><i className="fas fa-cog"/></button>
-                                    </span>
                             </div>
+                            <hr/>
                         </div>
                     </div>
-                    <div className="row mb-3">
-                        <div className="col-12 col-lg-3">
-                            <p>Main goals</p>
+                    <div className="">
+                        <div className="">
+                            <h5>
+                                Main goals
+                                <span className="settingSpan">
+                                    <button type="button" className="editBtn" onClick={()=>editContent("goals")}><i className="fas fa-cog"/></button>
+                                </span>
+                            </h5>
                         </div>
-                        <div className="col-12 col-lg-9">
-                            <div className="d-flex justify-content-start align-items-center">
+                        <div className="">
+                            <div className="">
                                 <ol>
                                     {goals.map((goal,i)=>{
                                         return(
@@ -164,30 +173,29 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                                         )
                                     })}
                                 </ol>
-                                <span>
-                                        <button type="button" className="editBtn" onClick={()=>editContent("goals")}><i className="fas fa-cog"/></button>
-                                    </span>
                             </div>
+                            <hr/>
                         </div>
                     </div>
-                    <div className="row mb-3">
-                        <div className="col-12 col-lg-3">
-                            <p>Stack</p>
+                    <div className="">
+                        <div className="">
+                            <h5>Stack</h5>
                         </div>
-                        <div className="col-12 col-lg-9">
-                            <div className="d-flex justify-content-start align-items-center">
+                        <div className="">
+                            <div className="">
                                 <p className="m-0">Front-end {formData.frontend.archType === "react" ? <img alt="" width={40} height={40} src="https://res.cloudinary.com/antoxaalex/image/upload/v1615643764/fullstack-generator/react-2_wxmb9s.svg"/> : "front-end"}</p>
                             </div>
-                            <div className="d-flex justify-content-start align-items-center">
+                            <div className="">
                                 <p className="m-0">Back-end {formData.backend.archType === "node" ? <img alt="" width={40} height={40} src="https://res.cloudinary.com/antoxaalex/image/upload/v1615643551/fullstack-generator/nodejs-icon_ocbswf.svg"/> :" backend"}</p>
                             </div>
+                            <hr/>
                         </div>
                     </div>
                     <div className="text-center">
                         <button type="button" className="btn btn-sm btn-outline-danger" onClick={()=>deleteProject(id)}>Delete project</button>
                     </div>
                 </div>
-                <div className="col-12 col-lg-3 projectGridSection">
+                <div className="projectGridSection">
                     <h3 className="projectGridHeader">Users</h3>
                     <button type="button" className="btn btn-sm btn-outline-info" onClick={()=>openUserModal()}>Add user</button>
                     <ul>
@@ -198,7 +206,7 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                         })}
                     </ul>
                 </div>
-                <div id="checklistPart" className="col-12 col-lg-3 projectGridSection">
+                <div id="checklistPart" className="projectGridSection">
                     <h3 className="projectGridHeader">Next task</h3>
                     <ol>
                         {project.checklist.filter(item=>!item.isItemCompleted).map((item,i)=>{
@@ -217,15 +225,13 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                         })}
                     </ol>
                 </div>
-            </div>
-            <div className="row">
-                <div className="col-12 col-lg-6 projectGridSection">
+                <div className="projectGridSection">
                     <h3 className="projectGridHeader">Progress</h3>
                     <div id="diagramsDiv" style={{width: "100%",height: "100%"}}>
                         <canvas id="chartCanvas" ref={canvasRef}/>
                     </div>
                 </div>
-                <div className="col-12 col-lg-3 projectGridSection">
+                <div className="projectGridSection">
                     <h3 className="projectGridHeader">UI Schema</h3>
                     <div className="projectViewColumn">
                         {project.projectView.map((view,i)=>{
@@ -238,7 +244,7 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                         })}
                     </div>
                 </div>
-                <div className="col-12 col-lg-3 projectGridSection">
+                <div className="projectGridSection">
                     <h3 className="projectGridHeader">Files</h3>
                     <div className="projectGridEndSection mb-3">
                         {project.frontend.files.map((file,i)=>{

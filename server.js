@@ -50,6 +50,27 @@ app.ws("/",(ws,req)=>{
         }
     })
 })
+app.ws("/theme",(ws,req)=>{
+    ws.on("message",(msg)=>{
+        console.log(msg)
+        msg = JSON.parse(msg);
+        switch (msg.method) {
+            case "theme":
+                if(msg.theme === "darkTheme"){
+                    ws.send(JSON.stringify({
+                        method:"theme",
+                        theme:"lightTheme"
+                    }))
+                }else{
+                    ws.send(JSON.stringify({
+                        method:"theme",
+                        theme:"darkTheme"
+                    }))
+                }
+            break;
+        }
+    })
+})
 
 //Connect MongoDB
 connectDB()

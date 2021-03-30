@@ -24,18 +24,9 @@ let fileSchema = new mongoose.Schema({
             }
         }
     ],
-    subfiles:[
-        {
-            type:{
-                type:String,
-                required: true
-            },
-            purpose:{
-                type: String,
-                required: true
-            }
-        }
-    ]
+    folder:{
+        type: String
+    }
 })
 
 module.exports = mongoose.model("File",fileSchema)

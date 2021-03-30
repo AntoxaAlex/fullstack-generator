@@ -40,35 +40,37 @@ const Register = ({isAuthenticated,register, setAlert}) =>{
     }
     return(
         <div id="signUpDiv" className="container">
-            <h1 className="mb-3 text-center">Sign up</h1>
-            <form onSubmit={(e)=>onSubmitForm(e)}>
-                <div className="mb-3">
-                    <label htmlFor="firstname" className="form-label">Firstname</label>
-                    <input type="text" className="form-control" autoComplete="off" id="firstname" name="firstname" value={firstname} onChange={(e)=>onChangeValue(e)}/>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="secondname" className="form-label">Secondname</label>
-                    <input type="text" className="form-control" autoComplete="off" id="secondname" name="secondname" value={secondname} onChange={(e)=>onChangeValue(e)}/>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Email address</label>
-                    <input type="email" className="form-control" autoComplete="off" id="email" name="email" value={email} onChange={(e)=>onChangeValue(e)}/>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="password1" className="form-label">Password1</label>
-                    <input type="password" className="form-control" id="password1" name="password" value={password} onChange={(e)=>onChangeValue(e)}/>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="password2" className="form-label">Password2</label>
-                    <input type="password" className="form-control" id="password2" name="password2" value={password2} onChange={(e)=>onChangeValue(e)}/>
-                </div>
-                <p className="my-3">
-                    Already have an account? <Link to="/signin">Click here</Link>
-                </p>
-                <div className="text-center">
-                    <button type="submit" className="btn btn-lg btn-primary">Sign up</button>
-                </div>
-            </form>
+            <div className="signContainer">
+                <h1 className="mb-3 text-center">Sign up</h1>
+                <form onSubmit={(e)=>onSubmitForm(e)}>
+                    <div className="mb-3">
+                        <label htmlFor="firstname" className="form-label">Firstname</label>
+                        <input type="text" className="form-control" autoComplete="off" id="firstname" name="firstname" value={firstname} onChange={(e)=>onChangeValue(e)}/>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="secondname" className="form-label">Secondname</label>
+                        <input type="text" className="form-control" autoComplete="off" id="secondname" name="secondname" value={secondname} onChange={(e)=>onChangeValue(e)}/>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="email" className="form-label">Email address</label>
+                        <input type="email" className="form-control" autoComplete="off" id="email" name="email" value={email} onChange={(e)=>onChangeValue(e)}/>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="password1" className="form-label">Password1</label>
+                        <input type="password" className="form-control" id="password1" name="password" value={password} onChange={(e)=>onChangeValue(e)}/>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="password2" className="form-label">Password2</label>
+                        <input type="password" className="form-control" id="password2" name="password2" value={password2} onChange={(e)=>onChangeValue(e)}/>
+                    </div>
+                    <p className="my-3">
+                        Already have an account? <Link to="/signin">Click here</Link>
+                    </p>
+                    <div className="text-center">
+                        <button type="submit" className="submitBtn">GO</button>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }

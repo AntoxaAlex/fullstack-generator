@@ -1,10 +1,11 @@
-import {LOGIN_SUCCESS, REGISTER_SUCCESS,REGISTER_FAILED,LOGIN_FAILED,LOGOUT,USER_LOADED,AUTH_ERR} from "../actions/types";
+import {LOGIN_SUCCESS, REGISTER_SUCCESS,REGISTER_FAILED,LOGIN_FAILED,LOGOUT,USER_LOADED,AUTH_ERR,CHANGE_THEME} from "../actions/types";
 
 const initialState = {
     token: localStorage.getItem("token"),
     isAuthenticated: null,
     loading: true,
-    user: null
+    user: null,
+    theme: "darkTheme"
 }
 
 export default function (state = initialState, action) {
@@ -25,6 +26,11 @@ export default function (state = initialState, action) {
                 ...payload,
                 isAuthenticated: true,
                 loading: false
+            }
+        case CHANGE_THEME:
+            return {
+                ...state,
+                theme: state.theme === "darkTheme" ? "lightTheme" : "darkTheme"
             }
         case REGISTER_FAILED:
         case LOGIN_FAILED:

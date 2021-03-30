@@ -18,6 +18,7 @@ import Home from "./components/Home";
 import Project from "./components/Project";
 
 import ProjectProvider from "./context/ProjectContext";
+import Navbar from "./components/layout/Navbar";
 
 
 if(localStorage.token){
@@ -33,15 +34,16 @@ function App() {
   return (
       <Provider store={store}>
           <Router>
-              <Alert/>
-              <Switch>
-                  <Route path="/signin" component={Login}/>
-                  <Route path="/signup" component={Register}/>
-                  <PrivateRoute exact path="/" component={Home}/>
-                  <ProjectProvider>
+              <ProjectProvider>
+                  <Alert/>
+                  <Navbar/>
+                  <Switch>
+                      <Route path="/signin" component={Login}/>
+                      <Route path="/signup" component={Register}/>
+                      <PrivateRoute exact path="/" component={Home}/>
                       <PrivateRoute path="/project/:id" component={Project}/>
-                  </ProjectProvider>
-              </Switch>
+                  </Switch>
+              </ProjectProvider>
           </Router>
       </Provider>
   );

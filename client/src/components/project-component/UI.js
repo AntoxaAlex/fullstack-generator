@@ -26,6 +26,7 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
 
     const[isAlertModalActive,setAlertModal] = useState(false)
     const[isTextModalOpened,setViewTextModal] = useState(false)
+    const[canvasView,setCanvasView] = useState(null)
     const[viewState,setView] = useState({
         isViewOpened: false,
         index: null,
@@ -100,6 +101,9 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
 
     useEffect(()=>{
         setCanvas(canvasRef.current)
+        if(viewState.isViewOpened){
+            setCanvasView(document.querySelector(".drawingSection").getBoundingClientRect().width)
+        }
     },[viewState.isViewOpened])
 
     useEffect(()=>{
@@ -161,6 +165,9 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
     const onMouseUp = (e) => {
         setUiData({...uiData,mouseDown: false})
     }
+    const onTouchUp = (e) => {
+        setUiData({...uiData,mouseDown: false})
+    }
     const onMouseDown = (e) => {
         setUiData({...uiData,mouseDown: true})
         setCoordinates({...coordinates,startX: e.pageX - e.target.offsetLeft,startY: e.pageY - e.target.offsetTop,savedImg: uiData.canvas.toDataURL()})
@@ -169,6 +176,16 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
         uiData.ctx.beginPath()
         if(uiData.toolItem === "brush" || uiData.toolItem === "eraser"){
             uiData.ctx.moveTo(e.pageX - e.target.offsetLeft,e.pageY - e.target.offsetTop)
+        }
+    }
+    const onTouchDown = (e) => {
+        setUiData({...uiData,mouseDown: true})
+        setCoordinates({...coordinates,startX: e.touches[0].clientX - e.target.offsetLeft,startY: e.touches[0].clientY - e.target.offsetTop,savedImg: uiData.canvas.toDataURL()})
+        onChangeProjectView(uiData.canvas.toDataURL(),viewState.index)
+        pushToUndo(uiData.canvas.toDataURL())
+        uiData.ctx.beginPath()
+        if(uiData.toolItem === "brush" || uiData.toolItem === "eraser"){
+            uiData.ctx.moveTo(e.touches[0].clientX - e.target.offsetLeft,e.touches[0].clientY - e.target.offsetTop)
         }
     }
     const onMouseMove = (e) => {
@@ -189,6 +206,30 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
                 drawLine(currentX,currentY)
             } else if(uiData.toolItem === "eraser"){
                 erase(e.pageX - e.target.offsetLeft,e.pageY - e.target.offsetTop)
+            } else if(uiData.toolItem === "text"){
+                const width = currentX - startX
+                drawTextField(e,startX,startY,width)
+            }
+        }
+    }
+    const onTouchMove = (e) => {
+        const currentX = e.touches[0].clientX - e.target.offsetLeft;
+        const currentY = e.touches[0].clientY - e.target.offsetTop
+        if(uiData.mouseDown){
+            onChangeProjectView(uiData.canvas.toDataURL(),viewState.index)
+            if(uiData.toolItem === "brush"){
+                drawBrush(e.touches[0].clientX - e.target.offsetLeft,e.touches[0].clientY - e.target.offsetTop)
+            } else if(uiData.toolItem === "rectangular"){
+                const width = currentX - startX
+                const height = currentY - startY
+                drawRect(startX,startY,width,height)
+            }  else if(uiData.toolItem === "circle"){
+                const r = Math.sqrt(Math.pow(currentX-startX,2) + Math.pow(currentY-startY,2))
+                drawCircle(startX,startY,r,0,2*Math.PI)
+            } else if(uiData.toolItem === "line"){
+                drawLine(currentX,currentY)
+            } else if(uiData.toolItem === "eraser"){
+                erase(e.touches[0].clientX - e.target.offsetLeft,e.touches[0].clientY - e.target.offsetTop)
             } else if(uiData.toolItem === "text"){
                 const width = currentX - startX
                 drawTextField(e,startX,startY,width)
@@ -387,16 +428,6 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
                 }}
             />}
             <div id="viewsRow">
-                {projectViewState.map((view,i)=>{
-                    return(
-                        <div key={uuidv4()}>
-                            <img alt="" width={70} height={70} src={projectViewState[i].src}/>
-                            <p>{view.title}</p>
-                            <button type="button" className="btn btn-sm btn-outline-primary" onClick={()=>openView(i)}>See view</button>
-                            <button type="button" className="btn btn-sm btn-outline-danger" onClick={(e)=>removeView(e,i)}>Delete</button>
-                        </div>
-                    )
-                })}
                 <button
                     type="button"
                     onClick={()=> {
@@ -407,6 +438,16 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
                 >
                     <i className="fas fa-plus"/>
                 </button>
+                {projectViewState.map((view,i)=>{
+                    return(
+                        <div key={uuidv4()} className="viewsRowItem" style={{backgroundImage:`url(${projectViewState[i].src})`}}>
+
+                            <p className="text-center">{view.title}</p>
+                            <button type="button" className="btn btn-sm btn-primary" onClick={()=>openView(i)}>See view</button>
+                            <button type="button" className="btn btn-sm btn-danger" onClick={(e)=>removeView(e,i)}>Delete</button>
+                        </div>
+                    )
+                })}
             </div>
             {viewState.isViewOpened && document.body.scrollWidth > 415 && <div className="drawingSection">
                 <div className="canvasDiv">
@@ -440,10 +481,11 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
                     />
                     <div className="canvasFlexDiv">
                         <canvas
+                            id="mainCanvas"
                             ref={canvasRef}
-                            width={document.body.scrollWidth < 600 ? 300 :800}
+                            width={canvasView/2}
                             style={{backgroundColor: viewState.backgroundColor}}
-                            height={document.body.scrollWidth < 600 ? 200 : 600}
+                            height={canvasView/2}
                             onMouseDown={(e)=> {
                                 if(uiData.toolItem){
                                     onMouseDown(e)
@@ -451,7 +493,7 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
                             }}
                             onTouchStart={(e)=> {
                                 if (uiData.toolItem) {
-                                    onMouseDown(e)
+                                    onTouchDown(e)
                                 }
                             }}
                             onMouseUp={(e)=> {
@@ -460,13 +502,17 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
                                 }
                             }}
                             onTouchEnd={(e)=> {
+                                document.querySelector("#root").setAttribute("style","touch-action: auto;")
+                                document.querySelector("#mainCanvas").setAttribute("style","touch-action: none;")
                                 if(uiData.toolItem){
-                                    onMouseUp(e)
+                                    onTouchUp(e)
                                 }
                             }}
                             onTouchMove={(e)=> {
+                                document.querySelector("#root").setAttribute("style","touch-action: none;")
+                                document.querySelector("#mainCanvas").setAttribute("style","touch-action: auto;")
                                 if(uiData.toolItem){
-                                    onMouseMove(e)
+                                    onTouchMove(e)
                                 }
                             }}
                             onMouseMove={(e)=> {

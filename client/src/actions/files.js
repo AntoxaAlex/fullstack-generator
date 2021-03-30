@@ -2,7 +2,7 @@ import axios from "axios";
 import {PROJECT_ERROR, PROJECT_MODIFIED} from "./types";
 import {setAlert} from "./alert";
 
-export const createFile = (id,folderIndex,section,type,title,features) => async dispatch =>{
+export const createFile = (id,folderIndex,folderTitle,section,type,title,features) => async dispatch =>{
     const config = {
         headers: {
             "Content-Type": "application/json"
@@ -10,6 +10,7 @@ export const createFile = (id,folderIndex,section,type,title,features) => async 
     }
     const body = JSON.stringify({
         folderIndex,
+        folderTitle,
         section,
         type,
         title,

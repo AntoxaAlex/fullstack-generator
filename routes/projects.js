@@ -114,6 +114,30 @@ router.get("/:id", auth, async(req,res)=>{
 
             }
         }).populate({
+            path: "frontend",
+            populate: {
+                path: "files",
+                populate:[{
+                    path: "file",
+                    populate:{
+                        path:"folder"
+                    }
+                }]
+
+            }
+        }).populate({
+            path: "backend",
+            populate: {
+                path: "files",
+                populate:[{
+                    path: "file",
+                    populate:{
+                        path:"folder"
+                    }
+                }]
+
+            }
+        }).populate({
             path: "interdependence",
             populate:[{
                 path: "receiver",

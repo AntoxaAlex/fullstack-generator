@@ -6,7 +6,7 @@ const NewFile = ({inputData}) => {
         folderIndex:"",
         fileSection: "",
         fileType: "",
-        fileTitle: "",
+        fileTitle: ""
     })
 
     const[fileFeatures,setFeatures] = useState([
@@ -85,7 +85,7 @@ const NewFile = ({inputData}) => {
                 <button type="button" className="btn btn-sm btn-outline-warning mb-3" onClick={()=>addFeature()}>Add feature</button>
                 {fileFeatures.map((feature,i)=>{
                     return(
-                        <div key={uuidv4()} className="mb-3">
+                        <div key={i} className="mb-3">
                             <input type="text" className="form-control" placeholder="Feature" autoComplete="off" name="fileFeature" id={"fileFeature"+i} value={feature} onChange={(e)=>onChangeFeatures(e,i)}/>
                         </div>
                     )

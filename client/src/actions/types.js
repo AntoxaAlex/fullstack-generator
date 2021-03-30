@@ -16,3 +16,4 @@ export const PROJECT_ERROR = "PROJECT_ERROR";
 export const GET_UI = "GET_UI"
 export const SET_TOOL = "SET_TOOL"
 export const SET_CANVAS = "SET_CANVAS"
+export const CHANGE_THEME = "CHANGE_THEME"

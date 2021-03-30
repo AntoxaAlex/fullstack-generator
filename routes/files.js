@@ -16,13 +16,14 @@ router.post("/",auth,[
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()});
     }
-    const {folderIndex,section, type, title, features} = req.body;
+    const {folderIndex,section, type, title, features,folderTitle} = req.body;
     const fileObj = {};
     fileObj.features = [];
     fileObj.project = req.params.id
     fileObj.section = section;
     fileObj.type = type;
     fileObj.title = title;
+    if(folderTitle) fileObj.folder = folderTitle
     features.map(feature=>fileObj.features.push({text:feature}))
     try {
         let file = await new File(fileObj);

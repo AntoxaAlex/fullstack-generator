@@ -1,4 +1,4 @@
-import {REGISTER_SUCCESS,REGISTER_FAILED,LOGIN_SUCCESS,LOGIN_FAILED,LOGOUT,AUTH_ERR,USER_LOADED} from "./types";
+import {REGISTER_SUCCESS,REGISTER_FAILED,LOGIN_SUCCESS,LOGIN_FAILED,LOGOUT,AUTH_ERR,USER_LOADED,CHANGE_THEME} from "./types";
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import {setAlert} from "./alert";
@@ -85,6 +85,12 @@ export const login = (email,password) => async dispatch =>{
     }
 }
 
+//Change theme
+export const changeTheme = () => async dispatch => {
+    dispatch({
+        type: CHANGE_THEME
+    })
+}
 //Logout
 export const logout = () => dispatch => {
     dispatch({

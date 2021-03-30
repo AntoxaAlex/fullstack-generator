@@ -1,5 +1,4 @@
 import React,{useEffect,Fragment} from "react";
-import{connectToServerSocket} from "../clientSoket";
 import Loading from "./layout/Loading";
 
 import {useProjectContext} from "../context/ProjectContext";
@@ -16,7 +15,6 @@ import Checklist from "./project-component/Checklist";
 import UI from "./project-component/UI";
 import Decomposition from "./project-component/Decomposition";
 import Modal from "./modals/Modal";
-import BootstrapSwitchButton from "bootstrap-switch-button-react/lib/bootstrap-switch-button-react";
 
 
 const Project = ({getProjectById, deleteProject, editProject,createFile,logout, project:{project, loading,isProjectDeleted},auth}) =>{
@@ -26,7 +24,6 @@ const Project = ({getProjectById, deleteProject, editProject,createFile,logout, 
 
     const{
         activeTabs,
-        changeProjectSection,
         formData,
         setFormData,
         goals,
@@ -88,15 +85,6 @@ const Project = ({getProjectById, deleteProject, editProject,createFile,logout, 
         }
     },[project])
 
-    useEffect(()=>{
-        if(project){
-            if(project.users.filter(user=>user.user === auth.user._id).length > 0){
-                connectToServerSocket(auth.user,project)
-            }else{
-                console.log("You have not permission")
-            }
-        }
-    },[auth.loading,project])
 
     if(isProjectDeleted){
         return <Redirect to="/"/>
@@ -134,7 +122,7 @@ const Project = ({getProjectById, deleteProject, editProject,createFile,logout, 
     const onSubmitNewFile = (e,modalFormData,features) => {
         e.preventDefault();
         const{fileSection,folderIndex,fileType,fileTitle} = modalFormData
-        createFile(id,folderIndex,fileSection,fileType,fileTitle,features)
+        createFile(id,folderIndex,project.folders[folderIndex].title,fileSection,fileType,fileTitle,features)
         setModal({...modalForm,fileCreateModal: {isModalActive: !modalForm.fileCreateModal.isModalActive}});
     }
 
@@ -240,36 +228,7 @@ const Project = ({getProjectById, deleteProject, editProject,createFile,logout, 
                         }}
                     />
                 }
-                <div id="project-main" className={theme === "dark" ? "darkTheme" : "lightTheme"}>
-                    <div id="project-nav">
-                        <nav className="nav p-2">
-                            <Link to="/" className="backBtn transparentBtn"><i className="fas fa-arrow-left"/></Link>
-                            <div className="vercalBtnsDiv ml-auto">
-                                <button className="vertiacalNavBtn transparentBtn" onClick={()=>changeProjectSection("generalInfo")}>
-                                    <i className="fas fa-info"/>
-                                </button>
-                                <button className="vertiacalNavBtn transparentBtn" onClick={()=>changeProjectSection("checklist")}>
-                                    <i className="fas fa-tasks"/>
-                                </button>
-                                <button className="vertiacalNavBtn transparentBtn" onClick={()=>changeProjectSection("ui")}>
-                                    <i className="fas fa-tv"/>
-                                </button>
-                                <button className="vertiacalNavBtn transparentBtn" onClick={()=>changeProjectSection("decomposition")}>
-                                    <i className="fas fa-network-wired"/>
-                                </button>
-                            </div>
-                            <div className="settingBtnsDiv">
-                                <BootstrapSwitchButton
-                                    onlabel={<i className="far fa-moon"/>}
-                                    onstyle='dark'
-                                    offlabel={<i className="far fa-sun"/>}
-                                    offstyle='light'
-                                    onChange={() => onChangeTheme()}
-                                />
-                                {auth.isAuthenticated && <button type="button" className="transparentBtn" onClick={()=>logout()}><i className="fas fa-sign-out-alt"/></button>}
-                            </div>
-                        </nav>
-                    </div>
+                <div id="project-main">
                     <div id="project-content">
                         <GeneralInfo
                             id={id}

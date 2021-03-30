@@ -3,11 +3,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 const NewFolder = ({inputData}) => {
     const{
-        files,
         folderIndex,
         folderSection,
         folderTitle,
-        folderFiles
     } = inputData
 
     return (<Fragment>
@@ -21,21 +19,6 @@ const NewFolder = ({inputData}) => {
                     <option value="">Choose section</option>
                     <option value="frontend">Frontend</option>
                     <option value="backend">Backend</option>
-                </select>
-            </div>
-            <div className="mb-3">
-                <select className="form-control" id="type" placeholder="Type" autoComplete="off" name="fileType" value={folderFiles[folderIndex]} onChange={(e)=>inputData.onChangeFolderFiles(e.target.value,folderIndex)} aria-label="Default select example">
-                    <option value="">Choose file</option>
-                    {folderSection === "frontend" && folderSection && folderSection !== "" && files.filter(file=>file.section === "frontend").map((file,i)=>{
-                        return(
-                            <option key={uuidv4()} value={file._id}>{file.title}</option>
-                        )
-                    })}
-                    {folderSection === "backend" && folderSection && folderSection !== "" && files.filter(file=>file.section === "backend").map((file,i)=>{
-                        return(
-                            <option key={uuidv4()} value={file._id}>{file.title}</option>
-                        )
-                    })}
                 </select>
             </div>
             <div className="text-center">
