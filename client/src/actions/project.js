@@ -20,6 +20,7 @@ export const getAllProjects = () => async dispatch =>{
 
 export const getProjectById = (id) => async dispatch =>{
     try {
+        console.log(id)
         const res = await axios.get("/project/"+id)
         console.log(res.data)
         dispatch({
