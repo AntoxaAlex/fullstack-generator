@@ -19,9 +19,6 @@ import setAuthToken from "../utils/setAuthToken";
 
 
 const Project = ({getProjectById, deleteProject, editProject,createFile,logout, project:{project, loading,isProjectDeleted},auth}) =>{
-    if(localStorage.token){
-        setAuthToken(localStorage.token);
-    }
     const{id} = useParams()
 
     const projectCtx = useProjectContext()
@@ -66,8 +63,10 @@ const Project = ({getProjectById, deleteProject, editProject,createFile,logout, 
 
 
     useEffect(()=>{
-        getProjectById(id)
-    },[id])
+        if(auth.token){
+            getProjectById(id)
+        }
+    },[id,auth.token])
     useEffect(()=>{
         if(project){
             setFormData({...formData,
