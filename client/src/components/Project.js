@@ -15,7 +15,6 @@ import Checklist from "./project-component/Checklist";
 import UI from "./project-component/UI";
 import Decomposition from "./project-component/Decomposition";
 import Modal from "./modals/Modal";
-import setAuthToken from "../utils/setAuthToken";
 
 
 const Project = ({getProjectById, deleteProject, editProject,createFile,logout, project:{project, loading,isProjectDeleted},auth}) =>{
@@ -63,10 +62,10 @@ const Project = ({getProjectById, deleteProject, editProject,createFile,logout, 
 
 
     useEffect(()=>{
-        if(auth.token){
+        if(localStorage.token){
             getProjectById(id)
         }
-    },[id,auth.token])
+    },[id])
     useEffect(()=>{
         if(project){
             setFormData({...formData,
@@ -233,26 +232,26 @@ const Project = ({getProjectById, deleteProject, editProject,createFile,logout, 
                 }
                 <div id="project-main">
                     <div id="project-content">
-                        {/*<GeneralInfo*/}
-                        {/*    id={id}*/}
-                        {/*    project={project}*/}
-                        {/*    onSubmitForm={(e)=>onSubmitProject(e)}*/}
-                        {/*    onChangeValue={(e)=>onChangeValue(e)}*/}
-                        {/*    onChangeGoals={(e,i)=>onChangeGoals(e,i)}*/}
-                        {/*    deleteProject={(id)=>deleteProject(id)}*/}
-                        {/*/>*/}
-                        {/*<Decomposition*/}
-                        {/*    id={id}*/}
-                        {/*    project={project}*/}
-                        {/*/>*/}
+                        <GeneralInfo
+                            id={id}
+                            project={project}
+                            onSubmitForm={(e)=>onSubmitProject(e)}
+                            onChangeValue={(e)=>onChangeValue(e)}
+                            onChangeGoals={(e,i)=>onChangeGoals(e,i)}
+                            deleteProject={(id)=>deleteProject(id)}
+                        />
+                        <Decomposition
+                            id={id}
+                            project={project}
+                        />
                         <Checklist
                             checklist={project.checklist}
                             changeCheckbox={(listIndex,liIndex)=>changeCheckbox(listIndex,liIndex)}
                         />
-                        {/*{activeTabs.ui && <UI*/}
-                        {/*    removeView={(e,i)=>removeView(e,i)}*/}
-                        {/*    onSubmitUI={(e)=>onSubmitProject(e)}*/}
-                        {/*/>}*/}
+                        {activeTabs.ui && <UI
+                            removeView={(e,i)=>removeView(e,i)}
+                            onSubmitUI={(e)=>onSubmitProject(e)}
+                        />}
                     </div>
                 </div>
             </main> : <Loading/>}
