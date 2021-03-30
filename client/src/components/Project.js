@@ -15,9 +15,13 @@ import Checklist from "./project-component/Checklist";
 import UI from "./project-component/UI";
 import Decomposition from "./project-component/Decomposition";
 import Modal from "./modals/Modal";
+import setAuthToken from "../utils/setAuthToken";
 
 
 const Project = ({getProjectById, deleteProject, editProject,createFile,logout, project:{project, loading,isProjectDeleted},auth}) =>{
+    if(localStorage.token){
+        setAuthToken(localStorage.token);
+    }
     const{id} = useParams()
 
     const projectCtx = useProjectContext()
