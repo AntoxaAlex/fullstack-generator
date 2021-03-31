@@ -18,7 +18,6 @@ import Home from "./components/Home";
 import Project from "./components/Project";
 import Navbar from "./components/layout/Navbar";
 
-//Context
 import ProjectProvider from "./context/ProjectContext";
 
 

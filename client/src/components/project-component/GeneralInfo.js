@@ -236,9 +236,9 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                     <div className="projectViewColumn">
                         {project.projectView.map((view,i)=>{
                             return(
-                                <div key={uuidv4()} className="projectViewColumnItem">
-                                    <img alt="" src={view.src} onMouseDown={()=>openProjectView(view,i)}/>
+                                <div key={uuidv4()} style={{borderRadius: "15px",border: "1px solid gray"}} className="projectViewColumnItem">
                                     <h5>{view.title}</h5>
+                                    <img alt="" src={view.src} onMouseDown={()=>openProjectView(view,i)}/>
                                 </div>
                             )
                         })}
