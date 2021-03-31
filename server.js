@@ -19,7 +19,7 @@ app.use(cors());
 //Routes
 app.use("/user",require("./routes/user"))
 app.use("/auth",require("./routes/auth"))
-app.use("/project",require("./routes/projects"))
+app.use("/projects",require("./routes/projects"))
 app.use("/project/:id/file",require("./routes/files"))
 
 //Connect MongoDB

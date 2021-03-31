@@ -5,7 +5,7 @@ import {setAlert} from "./alert";
 //Get all projects
 export const getAllProjects = () => async dispatch =>{
     try {
-        const res = await axios.get("/project");
+        const res = await axios.get("/projects");
         dispatch({
             type: GET_ALL_PROJECTS,
             payload: res.data
@@ -21,7 +21,7 @@ export const getAllProjects = () => async dispatch =>{
 export const getProjectById = (id) => async dispatch =>{
     try {
         console.log(id)
-        const res = await axios.get("/project/"+id)
+        const res = await axios.get("/projects/"+id)
         console.log(res.data)
         dispatch({
             type: GET_PROJECT_BY_ID,
@@ -52,7 +52,7 @@ export const createProject = (title,purpose,goals,frontArch,backArch) => async d
         backArch
     })
     try {
-        const res = await axios.post("/project",body,config);
+        const res = await axios.post("/projects",body,config);
         dispatch({
             type: NEW_PROJECT,
             payload: res.data
@@ -89,7 +89,7 @@ export const editProject = (reloadType,id,title,purpose,goals,users,frontend,bac
         theme
     })
     try {
-        const res = await axios.put("/project/"+id,body,config);
+        const res = await axios.put("/projects/"+id,body,config);
         dispatch({
             type: PROJECT_MODIFIED,
             payload: res.data
@@ -108,7 +108,7 @@ export const editProject = (reloadType,id,title,purpose,goals,users,frontend,bac
 
 export const deleteProject = (id) => async dispatch =>{
     try {
-       const res = await axios.delete("/project/"+id);
+       const res = await axios.delete("/projects/"+id);
        if(res.data.status === "deleted"){
            dispatch({
                type: PROJECT_DELETED
