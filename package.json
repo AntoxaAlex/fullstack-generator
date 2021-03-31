@@ -2,7 +2,7 @@
   "name": "fullstack-generator",
   "version": "1.0.0",
   "description": "This app is solution for developers to create a blueprint for their future projects",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "start": "node server.js",
     "server": "node_modules/.bin/nodemon server.js",
