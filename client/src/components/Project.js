@@ -20,244 +20,242 @@ import Modal from "./modals/Modal";
 const Project = ({getProjectById, deleteProject, editProject,createFile, project:{project, loading,isProjectDeleted},auth}) =>{
     const{id} = useParams()
 
-    // const projectCtx = useProjectContext()
-    //
-    // const{
-    //     activeTabs,
-    //     formData,
-    //     setFormData,
-    //     goals,
-    //     setGoals,
-    //     folders,
-    //     setFolders,
-    //     users,
-    //     setUsers,
-    //     projectViewState,
-    //     setProjectView,
-    //     workingTime,
-    //     setWorkingTime,
-    //     modalForm,
-    //     setModal,
-    //     intedepData,
-    //     setIntedepData,
-    //     onChangeGoals,
-    //     onChangeValue,
-    //     onChangeUsers,
-    //     addNewDep,
-    //     onChangeFolder,
-    //     onChangeFolderFiles,
-    //     onChangeInterdep,
-    // } = projectCtx
-    //
-    //
-    //
-    // const{
-    //     title,
-    //     purpose,
-    //     frontend,
-    //     backend,
-    //     checklist,
-    //     theme
-    // } = formData
-    //
-    //
-    // useEffect(()=>{
-    //     if(auth.token){
-    //         getProjectById(id)
-    //     }
-    // },[id,auth.token])
-    // useEffect(()=>{
-    //     if(project){
-    //         setFormData({...formData,
-    //             title: loading || !project.title ? "" : project.title,
-    //             purpose: loading || !project.purpose ? "" : project.purpose,
-    //             theme: loading || !project.theme ? "" : project.theme,
-    //             date: loading || !project.date ? null : project.date,
-    //             projectView: loading || !project.projectView  ? [] : project.projectView,
-    //             frontend: loading ? {} : project.frontend,
-    //             backend: loading ? {} : project.backend,
-    //             checklist: loading || !project.checklist ? [] : project.checklist
-    //         })
-    //         setWorkingTime(loading || !project.workingTime ? 0 : project.workingTime,)
-    //         setIntedepData(loading || !project.interdependence ? null : project.interdependence)
-    //         setGoals(  loading || !project.goals ? null : project.goals)
-    //         setProjectView(  loading || !project.projectView ? null : project.projectView)
-    //         setUsers(loading || !project.users ? null : project.users)
-    //         setFolders(loading || !project.folders ? null : project.folders)
-    //     }
-    // },[project])
-    //
-    //
-    // if(isProjectDeleted){
-    //     return <Redirect to="/"/>
-    // }
-    //
-    // const removeView = (e,i) => {
-    //     e.preventDefault();
-    //     const viewArr = [...projectViewState]
-    //     viewArr.splice(i,1)
-    //     setProjectView(viewArr)
-    //     editProject("manual",id,title,purpose,goals,users,frontend,backend,folders,checklist,intedepData,viewArr,workingTime)
-    // }
-    //
-    // const changeCheckbox = (listIndex,liIndex) => {
-    //     const newChecklist = [...formData.checklist]
-    //     newChecklist[listIndex].paragraphs[liIndex].isParCompleted = !newChecklist[listIndex].paragraphs[liIndex].isParCompleted
-    //     setFormData({...formData,checklist: newChecklist})
-    //     if(newChecklist[listIndex].paragraphs.filter(paragraph=>!paragraph.isParCompleted).length === 0){
-    //         newChecklist[listIndex].isItemCompleted = true;
-    //     } else {
-    //         newChecklist[listIndex].isItemCompleted = false;
-    //     }
-    //     editProject("manual",id,title,purpose,goals,users,frontend,backend,folders,checklist,intedepData,projectViewState,workingTime,theme)
-    // }
-    //
-    // const onChangeTheme = () => {
-    //     editProject("auto",id,title,purpose,goals,users,frontend,backend,folders,checklist,intedepData,projectViewState,workingTime,theme === "light" ? "dark" : "light")
-    // }
-    //
-    // const onSubmitProject = (e) => {
-    //     e.preventDefault();
-    //     editProject("manual",id,title,purpose,goals,users,frontend,backend,folders,checklist,intedepData,projectViewState,workingTime,theme)
-    // }
-    //
-    // const onSubmitNewFile = (e,modalFormData,features) => {
-    //     e.preventDefault();
-    //     const{fileSection,folderIndex,fileType,fileTitle} = modalFormData
-    //     createFile(id,folderIndex,project.folders[folderIndex].title,fileSection,fileType,fileTitle,features)
-    //     setModal({...modalForm,fileCreateModal: {isModalActive: !modalForm.fileCreateModal.isModalActive}});
-    // }
+    const projectCtx = useProjectContext()
+
+    const{
+        activeTabs,
+        formData,
+        setFormData,
+        goals,
+        setGoals,
+        folders,
+        setFolders,
+        users,
+        setUsers,
+        projectViewState,
+        setProjectView,
+        workingTime,
+        setWorkingTime,
+        modalForm,
+        setModal,
+        intedepData,
+        setIntedepData,
+        onChangeGoals,
+        onChangeValue,
+        onChangeUsers,
+        addNewDep,
+        onChangeFolder,
+        onChangeFolderFiles,
+        onChangeInterdep,
+    } = projectCtx
 
 
 
-    return(
-    //     <Fragment>
-    //         {!loading && project ? <main>
-    //             {modalForm.editGeneralInfo.isModalActive &&
-    //                 <Modal
-    //                     closeModal={()=>setModal({...modalForm,editGeneralInfo: {isModalActive: false,name: "",value: ""}})}
-    //                     type="editInfo"
-    //                     inputData={{
-    //                         inputValue: modalForm.editGeneralInfo.name === "title" ? title : modalForm.editGeneralInfo.name === "purpose" ? purpose : goals,
-    //                         inputName: modalForm.editGeneralInfo.name,
-    //                         onChangeValue:(e)=>onChangeValue(e),
-    //                         onChangeGoals:(e,i)=>onChangeGoals(e,i),
-    //                         onSubmitForm:(e)=> {
-    //                             onSubmitProject(e)
-    //                             setModal({...modalForm,editGeneralInfo: {isModalActive: false,name: "",value: ""}})
-    //                         }
-    //                     }}
-    //                 />
-    //             }
-    //             {modalForm.fileCreateModal.isModalActive &&
-    //             <Modal
-    //                 closeModal={()=>setModal({...modalForm,fileCreateModal: {isModalActive: !modalForm.fileCreateModal.isModalActive}})}
-    //                 type="newFile"
-    //                 inputData={{
-    //                     folders: folders,
-    //                     onSubmitForm: (e,modalFormData,features)=>onSubmitNewFile(e,modalFormData,features)
-    //                 }}
-    //             />}
-    //             {modalForm.fileModal.isModalActive &&
-    //                 <Modal
-    //                     closeModal={()=> {
-    //                         setModal({...modalForm, fileModal: {isModalActive: !modalForm.fileModal.isModalActive}})
-    //                     }}
-    //                     type="displayFile"
-    //                     inputData={{
-    //                         file:modalForm.fileModal.file,
-    //                         interdepFiles:intedepData,
-    //                         files:project.frontend.files.concat(project.backend.files),
-    //                         fileIndex:intedepData.length-1,
-    //                         closeNewDep:()=>{
-    //                             const newInterdep = [...intedepData]
-    //                             newInterdep.splice(intedepData.length-1,1)
-    //                             setIntedepData(newInterdep)
-    //                         },
-    //                         addNewDep:()=>addNewDep(),
-    //                         onSubmitDepForm:(e)=>onSubmitProject(e),
-    //                         onChangeValue:(e,i,id)=>onChangeInterdep(e,i,id)
-    //                     }}
-    //                 />}
-    //             {modalForm.viewModal.isModalActive &&
-    //                 <Modal
-    //                     closeModal={()=> {
-    //                         setModal({...modalForm, viewModal: {isModalActive: false,view: null}})
-    //                     }}
-    //                     type="seeView"
-    //                     inputData={{
-    //                         view:modalForm.viewModal.view,
-    //                     }}
-    //                 />
-    //             }
-    //             {modalForm.addUserModal.isModalActive &&
-    //                 <Modal
-    //                     closeModal={()=> {
-    //                         setModal({...modalForm, addUserModal: {isModalActive: false,index: ""}})
-    //                         const usersArr = [...users];
-    //                         usersArr.splice(modalForm.addUserModal.index,1);
-    //                         setUsers(usersArr)
-    //                     }}
-    //                     type="newUser"
-    //                     inputData={{
-    //                         users:users,
-    //                         index: modalForm.addUserModal.index,
-    //                         onChangeValue:(e,i)=>onChangeUsers(e,i),
-    //                         onSubmitForm:(e)=>onSubmitProject(e)
-    //                     }}
-    //                 />
-    //             }
-    //             {modalForm.addFolderModal.isModalActive && folders.length > 0 &&
-    //                 <Modal
-    //                     closeModal={()=> {
-    //                         setModal({...modalForm, addFolderModal: {isModalActive: false,index: null}})
-    //                         const foldersArr = [...folders];
-    //                         foldersArr.splice(folders.length-1,1);
-    //                         setFolders(foldersArr)
-    //                     }}
-    //                     type="newFolder"
-    //                     inputData={{
-    //                         files: project.frontend.files.concat(project.backend.files),
-    //                         folderIndex: folders.length-1,
-    //                         folderSection: folders[folders.length-1].section,
-    //                         folderTitle:folders[folders.length-1].title,
-    //                         folderFiles:folders[folders.length-1].files,
-    //                         onChangeValue:(e,i)=>onChangeFolder(e,i),
-    //                         onChangeFolderFiles:(value,i)=>onChangeFolderFiles(value,i),
-    //                         onSubmitForm: (e)=> {
-    //                             onSubmitProject(e)
-    //                             setModal({...modalForm,addFolderModal: {isModalActive: false,index: null}})
-    //                         }
-    //                     }}
-    //                 />
-    //             }
-    //             <div id="project-main">
-    //                 <div id="project-content">
-    //                     <GeneralInfo
-    //                         id={id}
-    //                         project={project}
-    //                         onSubmitForm={(e)=>onSubmitProject(e)}
-    //                         onChangeValue={(e)=>onChangeValue(e)}
-    //                         onChangeGoals={(e,i)=>onChangeGoals(e,i)}
-    //                         deleteProject={(id)=>deleteProject(id)}
-    //                     />
-    //                     <Decomposition
-    //                         id={id}
-    //                         project={project}
-    //                     />
-    //                     <Checklist
-    //                         checklist={project.checklist}
-    //                         changeCheckbox={(listIndex,liIndex)=>changeCheckbox(listIndex,liIndex)}
-    //                     />
-    //                     {activeTabs.ui && <UI
-    //                         removeView={(e,i)=>removeView(e,i)}
-    //                         onSubmitUI={(e)=>onSubmitProject(e)}
-    //                     />}
-    //                 </div>
-    //             </div>
-    //         </main> : <Loading/>}
-    // </Fragment>
-        <div>jfshkldf</div>
+    const{
+        title,
+        purpose,
+        frontend,
+        backend,
+        checklist,
+        theme
+    } = formData
+
+
+    useEffect(()=>{
+        if(auth.token){
+            getProjectById(id)
+        }
+    },[id,auth.token])
+    useEffect(()=>{
+        if(project){
+            setFormData({...formData,
+                title: loading || !project.title ? "" : project.title,
+                purpose: loading || !project.purpose ? "" : project.purpose,
+                theme: loading || !project.theme ? "" : project.theme,
+                date: loading || !project.date ? null : project.date,
+                projectView: loading || !project.projectView  ? [] : project.projectView,
+                frontend: loading ? {} : project.frontend,
+                backend: loading ? {} : project.backend,
+                checklist: loading || !project.checklist ? [] : project.checklist
+            })
+            setWorkingTime(loading || !project.workingTime ? 0 : project.workingTime,)
+            setIntedepData(loading || !project.interdependence ? null : project.interdependence)
+            setGoals(  loading || !project.goals ? null : project.goals)
+            setProjectView(  loading || !project.projectView ? null : project.projectView)
+            setUsers(loading || !project.users ? null : project.users)
+            setFolders(loading || !project.folders ? null : project.folders)
+        }
+    },[project])
+
+
+    if(isProjectDeleted){
+        return <Redirect to="/"/>
+    }
+
+    const removeView = (e,i) => {
+        e.preventDefault();
+        const viewArr = [...projectViewState]
+        viewArr.splice(i,1)
+        setProjectView(viewArr)
+        editProject("manual",id,title,purpose,goals,users,frontend,backend,folders,checklist,intedepData,viewArr,workingTime)
+    }
+
+    const changeCheckbox = (listIndex,liIndex) => {
+        const newChecklist = [...formData.checklist]
+        newChecklist[listIndex].paragraphs[liIndex].isParCompleted = !newChecklist[listIndex].paragraphs[liIndex].isParCompleted
+        setFormData({...formData,checklist: newChecklist})
+        if(newChecklist[listIndex].paragraphs.filter(paragraph=>!paragraph.isParCompleted).length === 0){
+            newChecklist[listIndex].isItemCompleted = true;
+        } else {
+            newChecklist[listIndex].isItemCompleted = false;
+        }
+        editProject("manual",id,title,purpose,goals,users,frontend,backend,folders,checklist,intedepData,projectViewState,workingTime,theme)
+    }
+
+    const onChangeTheme = () => {
+        editProject("auto",id,title,purpose,goals,users,frontend,backend,folders,checklist,intedepData,projectViewState,workingTime,theme === "light" ? "dark" : "light")
+    }
+
+    const onSubmitProject = (e) => {
+        e.preventDefault();
+        editProject("manual",id,title,purpose,goals,users,frontend,backend,folders,checklist,intedepData,projectViewState,workingTime,theme)
+    }
+
+    const onSubmitNewFile = (e,modalFormData,features) => {
+        e.preventDefault();
+        const{fileSection,folderIndex,fileType,fileTitle} = modalFormData
+        createFile(id,folderIndex,project.folders[folderIndex].title,fileSection,fileType,fileTitle,features)
+        setModal({...modalForm,fileCreateModal: {isModalActive: !modalForm.fileCreateModal.isModalActive}});
+    }
+
+
+
+    return( <Fragment>
+            {!loading && project ? <main>
+                {modalForm.editGeneralInfo.isModalActive &&
+                    <Modal
+                        closeModal={()=>setModal({...modalForm,editGeneralInfo: {isModalActive: false,name: "",value: ""}})}
+                        type="editInfo"
+                        inputData={{
+                            inputValue: modalForm.editGeneralInfo.name === "title" ? title : modalForm.editGeneralInfo.name === "purpose" ? purpose : goals,
+                            inputName: modalForm.editGeneralInfo.name,
+                            onChangeValue:(e)=>onChangeValue(e),
+                            onChangeGoals:(e,i)=>onChangeGoals(e,i),
+                            onSubmitForm:(e)=> {
+                                onSubmitProject(e)
+                                setModal({...modalForm,editGeneralInfo: {isModalActive: false,name: "",value: ""}})
+                            }
+                        }}
+                    />
+                }
+                {modalForm.fileCreateModal.isModalActive &&
+                <Modal
+                    closeModal={()=>setModal({...modalForm,fileCreateModal: {isModalActive: !modalForm.fileCreateModal.isModalActive}})}
+                    type="newFile"
+                    inputData={{
+                        folders: folders,
+                        onSubmitForm: (e,modalFormData,features)=>onSubmitNewFile(e,modalFormData,features)
+                    }}
+                />}
+                {modalForm.fileModal.isModalActive &&
+                    <Modal
+                        closeModal={()=> {
+                            setModal({...modalForm, fileModal: {isModalActive: !modalForm.fileModal.isModalActive}})
+                        }}
+                        type="displayFile"
+                        inputData={{
+                            file:modalForm.fileModal.file,
+                            interdepFiles:intedepData,
+                            files:project.frontend.files.concat(project.backend.files),
+                            fileIndex:intedepData.length-1,
+                            closeNewDep:()=>{
+                                const newInterdep = [...intedepData]
+                                newInterdep.splice(intedepData.length-1,1)
+                                setIntedepData(newInterdep)
+                            },
+                            addNewDep:()=>addNewDep(),
+                            onSubmitDepForm:(e)=>onSubmitProject(e),
+                            onChangeValue:(e,i,id)=>onChangeInterdep(e,i,id)
+                        }}
+                    />}
+                {modalForm.viewModal.isModalActive &&
+                    <Modal
+                        closeModal={()=> {
+                            setModal({...modalForm, viewModal: {isModalActive: false,view: null}})
+                        }}
+                        type="seeView"
+                        inputData={{
+                            view:modalForm.viewModal.view,
+                        }}
+                    />
+                }
+                {modalForm.addUserModal.isModalActive &&
+                    <Modal
+                        closeModal={()=> {
+                            setModal({...modalForm, addUserModal: {isModalActive: false,index: ""}})
+                            const usersArr = [...users];
+                            usersArr.splice(modalForm.addUserModal.index,1);
+                            setUsers(usersArr)
+                        }}
+                        type="newUser"
+                        inputData={{
+                            users:users,
+                            index: modalForm.addUserModal.index,
+                            onChangeValue:(e,i)=>onChangeUsers(e,i),
+                            onSubmitForm:(e)=>onSubmitProject(e)
+                        }}
+                    />
+                }
+                {modalForm.addFolderModal.isModalActive && folders.length > 0 &&
+                    <Modal
+                        closeModal={()=> {
+                            setModal({...modalForm, addFolderModal: {isModalActive: false,index: null}})
+                            const foldersArr = [...folders];
+                            foldersArr.splice(folders.length-1,1);
+                            setFolders(foldersArr)
+                        }}
+                        type="newFolder"
+                        inputData={{
+                            files: project.frontend.files.concat(project.backend.files),
+                            folderIndex: folders.length-1,
+                            folderSection: folders[folders.length-1].section,
+                            folderTitle:folders[folders.length-1].title,
+                            folderFiles:folders[folders.length-1].files,
+                            onChangeValue:(e,i)=>onChangeFolder(e,i),
+                            onChangeFolderFiles:(value,i)=>onChangeFolderFiles(value,i),
+                            onSubmitForm: (e)=> {
+                                onSubmitProject(e)
+                                setModal({...modalForm,addFolderModal: {isModalActive: false,index: null}})
+                            }
+                        }}
+                    />
+                }
+                <div id="project-main">
+                    <div id="project-content">
+                        <GeneralInfo
+                            id={id}
+                            project={project}
+                            onSubmitForm={(e)=>onSubmitProject(e)}
+                            onChangeValue={(e)=>onChangeValue(e)}
+                            onChangeGoals={(e,i)=>onChangeGoals(e,i)}
+                            deleteProject={(id)=>deleteProject(id)}
+                        />
+                        <Decomposition
+                            id={id}
+                            project={project}
+                        />
+                        <Checklist
+                            checklist={project.checklist}
+                            changeCheckbox={(listIndex,liIndex)=>changeCheckbox(listIndex,liIndex)}
+                        />
+                        {activeTabs.ui && <UI
+                            removeView={(e,i)=>removeView(e,i)}
+                            onSubmitUI={(e)=>onSubmitProject(e)}
+                        />}
+                    </div>
+                </div>
+            </main> : <Loading/>}
+    </Fragment>
     )
 }
 
