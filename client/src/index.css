@@ -125,7 +125,9 @@ code {
 
 .main-nav{
   height: 50px;
-  position: relative;
+  position: fixed;
+  top:0;
+  width: 100%;
   z-index: 2;
   justify-content: space-between;
   align-items: center;

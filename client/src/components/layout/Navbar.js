@@ -28,7 +28,7 @@ const Navbar = ({auth,project,changeTheme,logout}) => {
     }
 
     return (
-        <ul className="main-nav nav fixed-top">
+        <ul className="main-nav nav">
             {auth.isAuthenticated ? <Fragment>
                 {project.project ? <Link to="/" className="backBtn transparentBtn ml-2"><i className="fas fa-arrow-left"/></Link>
                     : <span id="spanId"><strong>id</strong>: {auth.user._id}</span>}
