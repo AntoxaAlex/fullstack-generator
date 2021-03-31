@@ -138,10 +138,6 @@ code {
   color:  rgb(206,206,207);
 }
 
-.nav .transparentBtn{
-  font-size: 1.7rem;
-}
-
 #spanId{
   margin-left: 10px;
   font-size: 1rem;
@@ -803,6 +799,9 @@ canvas{
     width: 90%;
     height: 90%;
   }
+  .nav .transparentBtn{
+    font-size: 1rem;
+  }
 
   #project-nav{
     background-color: rgb(24,24,24);
@@ -861,6 +860,9 @@ canvas{
   #signUpDiv{
     padding:10px 100px;
   }
+  .nav .transparentBtn{
+    font-size: 1.7rem;
+  }
   #homeHeaderDiv{
     height: 100vh;
   }
@@ -892,6 +894,9 @@ canvas{
   }
   #signUpDiv{
     padding: 200px
+  }
+  .nav .transparentBtn{
+    font-size: 1.7rem;
   }
   #homeHeaderDiv{
     min-height: 600px;
@@ -949,6 +954,9 @@ canvas{
     width: 600px;
     height:600px;
   }
+  .nav .transparentBtn{
+    font-size: 1.7rem;
+  }
   .homeHeader{
     font-size: 8rem;
   }
@@ -1003,6 +1011,9 @@ canvas{
   }
   .homeHeader{
     font-size: 8rem;
+  }
+  .nav .transparentBtn{
+    font-size: 1.7rem;
   }
   .generalRow{
     display: grid;
