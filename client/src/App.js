@@ -16,9 +16,10 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
 import Project from "./components/Project";
-
-import ProjectProvider from "./context/ProjectContext";
 import Navbar from "./components/layout/Navbar";
+
+//Context
+import ProjectProvider from "./context/ProjectContext";
 
 
 if(localStorage.token){
@@ -41,7 +42,7 @@ const App = () => {
                       <Route path="/signin" component={Login}/>
                       <Route path="/signup" component={Register}/>
                       <PrivateRoute exact path="/" component={Home}/>
-                      <PrivateRoute path="/project/:id" component={Project}/>
+                      <PrivateRoute exact path="/project/:id" component={Project}/>
                   </Switch>
               </ProjectProvider>
           </Router>
