@@ -43,7 +43,6 @@ const File = ({inputData}) => {
 
 
     useEffect(()=>{
-        console.log("update")
         if(interdepFiles){
             let nodes=[{
                 id: file._id.toString(),

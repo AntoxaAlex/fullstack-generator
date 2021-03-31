@@ -28,7 +28,7 @@ const Decomposition = ({id,project}) => {
         if(diagramObj.div){
             setDiagramObj({...diagramObj,width: diagramObj.div.getBoundingClientRect().width})
         }
-    },[diagramObj.div])
+    },[diagramObj.div,window.ondeviceorientation])
 
     useEffect(()=>{
         if(project.frontend.files.concat(project.backend.files)){

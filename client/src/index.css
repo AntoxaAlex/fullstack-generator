@@ -234,6 +234,14 @@ code {
   border: 1px solid rgb(20,20,20);
 }
 
+.alertRotateDiv{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .projectCard{
   width: 100%;
   height: 100%;
@@ -344,6 +352,23 @@ code {
 /*=======================================================Project=======================================================*/
 #project-main{
   margin-top: 50px;
+}
+#project-main:before{
+  margin-top: 50px;
+  background-position: 50%;
+  background-size: 750px;
+  background-image: url("https://res.cloudinary.com/antoxaalex/image/upload/v1617208740/fullstack-generator/bonds-297344_ysgshz.svg");
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: block;
+  z-index: 0;
+  content: "";
+  opacity: .1;
+  pointer-events: none;
 }
 .generalRow{
   display: grid;
@@ -643,7 +668,7 @@ input[type=checkbox] {
   opacity: 1;
 }
 
-canvas{
+.drawingSection canvas{
   border: none;
   box-shadow: 0 0 10px #c3073f;
 }
@@ -815,7 +840,7 @@ canvas{
     overflow-x: scroll;
     grid-column-gap: 50px;
     scroll-snap-type: x proximity;
-    grid-template-rows: 80vh;
+    grid-template-rows: 70vh;
     grid-template-columns: repeat(30,100%);
   }
   .projectGridSection{
