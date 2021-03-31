@@ -183,7 +183,6 @@ code {
   transform: translate(-50%,-50%);
   font-family: customFont;
   text-align: center;
-  z-index: 2;
 }
 
 #ownProjects input, #ownProjects div{
@@ -829,9 +828,6 @@ canvas{
   }
   .customInput{
     font-size: 1rem;
-  }
-  .nav .transparentBtn{
-    font-size: 1.4rem;
   }
   .projectGridEndSection{
     grid-template-columns: repeat(30, calc(100% - 150px));
