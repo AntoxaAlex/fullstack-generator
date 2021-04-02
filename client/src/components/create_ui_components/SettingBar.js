@@ -1,54 +1,64 @@
 import React, {Fragment} from 'react';
 
-const SettingBar = ({settings,tool,values,onChangeSetting}) => {
-    if(!values) return null
+const SettingBar = ({index,canvasContent,onChangeSetting}) => {
+    if(!index && !canvasContent) return null
     return (
-        <div id="settingBar">
-            {settings.hasOwnProperty("lineWidth") &&
+        <Fragment>
+            {canvasContent.hasOwnProperty("width") &&
             <div className="settingBarItem">
-                <label htmlFor="lineWidth" className="form-label">Line width</label>
-                <input type="range" className="form-control"  min="0" max="20" id="lineWidth" name="lineWidth" value={values.lineWidth} onChange={(e)=>onChangeSetting(e,tool)}/>
-                <input type="number" name="lineWidth" className="form-control" value={values.lineWidth} onChange={(e)=>onChangeSetting(e,tool)}/>
+                <label htmlFor="width" className="form-label mr-2">Width</label>
+                <input type="number" id="width" name="width" className="form-control" value={canvasContent.width} onChange={(e)=>onChangeSetting(e.target.name,parseInt(e.target.value),index)}/>
             </div>
             }
-            {settings.hasOwnProperty("lineColor") &&
+            {canvasContent.hasOwnProperty("height") &&
             <div className="settingBarItem">
-                <label htmlFor="lineColor" className="form-label">Line color</label>
-                <input type="color" className="form-control" id="lineColor" name="lineColor" value={values.lineColor} onChange={(e)=>onChangeSetting(e,tool)}/>
+                <label htmlFor="height" className="form-label mr-2">Height</label>
+                <input type="number" id="height" name="height" className="form-control" value={canvasContent.height} onChange={(e)=>onChangeSetting(e.target.name,parseInt(e.target.value),index)}/>
             </div>
             }
-            {settings.hasOwnProperty("backgroundColor") &&
+            {canvasContent.hasOwnProperty("borderRadius") &&
             <div className="settingBarItem">
-                <label htmlFor="backgroundColor" className="form-label">Background colour</label>
-                <input type="color" className="form-control" id="backgroundColor" name="backgroundColor" value={values.backgroundColor} onChange={(e)=>onChangeSetting(e,tool)}/>
+                <label htmlFor="borderRadius" className="form-label mr-2">Border radius</label>
+                <input type="number" id="borderRadius" name="borderRadius" className="form-control" value={canvasContent.borderRadius} onChange={(e)=>onChangeSetting(e.target.name,parseInt(e.target.value),index)}/>
             </div>
             }
-            {settings.hasOwnProperty("text") &&
+            {canvasContent.hasOwnProperty("borderWidth") &&
             <div className="settingBarItem">
-                <label htmlFor="text" className="form-label">Text</label>
-                <input type="text" className="form-control" id="text" name="text" value={values.text} onChange={(e)=>onChangeSetting(e,tool)}/>
+                <label htmlFor="borderWidth" className="form-label mr-2">Border width</label>
+                <input type="number" id="borderWidth" name="borderWidth" className="form-control" value={canvasContent.borderWidth} onChange={(e)=>onChangeSetting(e.target.name,parseInt(e.target.value),index)}/>
             </div>
             }
-            {settings.hasOwnProperty("fontSize") &&
+            {canvasContent.hasOwnProperty("borderColor") &&
             <div className="settingBarItem">
-                <label htmlFor="fontSize" className="form-label">Font size</label>
-                <input type="range" className="form-control" id="fontSize" name="fontSize" value={values.fontSize} onChange={(e)=>onChangeSetting(e,tool)}/>
-                <input type="number" className="form-control" name="fontSize" value={values.fontSize} onChange={(e)=>onChangeSetting(e,tool)}/>
+                <label htmlFor="borderColor" className="form-label mr-2">Border color</label>
+                <input type="color" className="form-control" id="borderColor" name="borderColor" value={canvasContent.borderColor} onChange={(e)=>onChangeSetting(e.target.name,e.target.value,index)}/>
             </div>
             }
-            {settings.hasOwnProperty("fontStyle") &&
+            {canvasContent.hasOwnProperty("background") &&
             <div className="settingBarItem">
-                <label htmlFor="fontStyle" className="form-label">Font style</label>
-                <input type="text" className="form-control" id="fontStyle" name="fontStyle" value={values.fontStyle} onChange={(e)=>onChangeSetting(e,tool)}/>
+                <label htmlFor="background" className="form-label mr-2">Background color</label>
+                <input type="color" className="form-control" id="background" name="background" value={canvasContent.background} onChange={(e)=>onChangeSetting(e.target.name,e.target.value,index)}/>
             </div>
             }
-            {settings.hasOwnProperty("fontColor") &&
+            {canvasContent.hasOwnProperty("text") &&
             <div className="settingBarItem">
-                <label htmlFor="fontColor" className="form-label">Font colour</label>
-                <input type="color" className="form-control" id="fontColor" name="fontColor" value={values.fontColor} onChange={(e)=>onChangeSetting(e,tool)}/>
+                <label htmlFor="text" className="form-label mr-2">Text</label>
+                <input type="text" className="form-control" id="text" name="text" value={canvasContent.text} onChange={(e)=>onChangeSetting(e.target.name,e.target.value,index)}/>
             </div>
             }
-        </div>
+            {canvasContent.hasOwnProperty("fontSize") &&
+            <div className="settingBarItem">
+                <label htmlFor="fontSize" className="form-label mr-2">Size</label>
+                <input type="number" className="form-control" name="fontSize" value={canvasContent.fontSize} onChange={(e)=>onChangeSetting(e.target.name,parseInt(e.target.value),index)}/>
+            </div>
+            }
+            {canvasContent.hasOwnProperty("color") &&
+            <div className="settingBarItem">
+                <label htmlFor="fontColor" className="form-label mr-2">Line colour</label>
+                <input type="color" className="form-control" id="color" name="color" value={canvasContent.color} onChange={(e)=>onChangeSetting(e.target.name,e.target.value,index)}/>
+            </div>
+            }
+        </Fragment>
     );
 };
 

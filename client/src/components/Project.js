@@ -186,6 +186,8 @@ const Project = ({getProjectById, deleteProject, editProject,createFile, project
                         type="seeView"
                         inputData={{
                             view:modalForm.viewModal.view,
+                            viewIndex: modalForm.viewModal.index,
+                            onSubmitUI:(e)=>onSubmitProject(e)
                         }}
                     />
                 }
@@ -250,7 +252,6 @@ const Project = ({getProjectById, deleteProject, editProject,createFile, project
                         />
                         {activeTabs.ui && <UI
                             removeView={(e,i)=>removeView(e,i)}
-                            onSubmitUI={(e)=>onSubmitProject(e)}
                         />}
                     </div>
                 </div>

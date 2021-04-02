@@ -16,6 +16,7 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
     const projectCtx = useProjectContext();
     const{
         activeTabs,
+        openProjectView,
         projectViewState,
         addNewView,
         removeTextView,
@@ -101,7 +102,7 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
 
     useEffect(()=>{
         setCanvas(canvasRef.current)
-        if(viewState.isViewOpened){
+        if(document.querySelector(".drawingSection")){
             setCanvasView(document.querySelector(".drawingSection").getBoundingClientRect().width)
         }
     },[viewState.isViewOpened])
@@ -125,11 +126,11 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
     //     }
     // },[uiData.ctx,uiData.canvas])
 
-    useEffect(()=>{
-        if(document.body.scrollWidth < 415){
-            setAlertModal(true)
-        }
-    },[document.body.scrollWidth])
+    // useEffect(()=>{
+    //     if(document.body.scrollWidth < 415){
+    //         setAlertModal(true)
+    //     }
+    // },[document.body.scrollWidth])
 
     useEffect(()=>{
         if(uiData.ctx && activeTabs.ui && canvas && uiData.ctx){
@@ -149,13 +150,7 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
     const addNewCanvas = async (e) => {
         e.preventDefault();
         setViewTextModal(!isTextModalOpened)
-        try {
-            await setView({...viewState,isViewOpened: true})
-            uiData.ctx.clearRect(0,0,canvas.width,canvas.height)
-            onChangeProjectView(uiData.canvas.toDataURL(),viewState.index)
-        }catch (e) {
-            console.log(e.message)
-        }
+        openProjectView(projectViewState[projectViewState.length-1],projectViewState.length-1)
     }
 
     const openView = (index) => {
@@ -393,7 +388,9 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
     const clearCanvas = () => {
         pushToUndo(uiData.canvas.toDataURL())
         uiData.ctx.clearRect(0,0,uiData.canvas.width,uiData.canvas.height)
-        onChangeProjectView(uiData.canvas.toDataURL())
+        uiData.ctx.fillRect(0,0,uiData.canvas.width,uiData.canvas.height)
+        uiData.ctx.fillStyle = viewState.backgroundColor;
+        onChangeProjectView(uiData.canvas.toDataURL(),viewState.index)
     }
     return(
         <Fragment>
@@ -417,13 +414,11 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
                 inputData={{
                     fileIndex:projectViewState.length-1,
                     viewTitle:projectViewState[projectViewState.length-1].title,
-                    backgroundColor: viewState.backgroundColor === "" ? "#fff" : viewState.backgroundColor,
                     onChangeValue: (e,i)=> {
                         const {value} = e.target;
                         onChangeViewTitle(value, i)
                         setView({...viewState,index: projectViewState.length-1})
                     },
-                    onChangeColor:(color)=>setView({...viewState, backgroundColor: color}),
                     onSubmitForm: (e)=>addNewCanvas(e)
                 }}
             />}
@@ -443,13 +438,13 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
                         <div key={uuidv4()} className="viewsRowItem" style={{backgroundImage:`url(${projectViewState[i].src})`}}>
 
                             <p className="text-center">{view.title}</p>
-                            <button type="button" className="btn btn-sm btn-primary" onClick={()=>openView(i)}>See view</button>
+                            <button type="button" className="btn btn-sm btn-primary" onClick={()=>openProjectView(view,i)}>See view</button>
                             <button type="button" className="btn btn-sm btn-danger" onClick={(e)=>removeView(e,i)}>Delete</button>
                         </div>
                     )
                 })}
             </div>
-            {viewState.isViewOpened && document.body.scrollWidth > 415 && <div className="drawingSection">
+            {viewState.isViewOpened && <div className="drawingSection">
                 <div className="canvasDiv">
                     <ToolBar
                         setTool={(tool)=> {

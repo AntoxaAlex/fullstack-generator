@@ -45,7 +45,8 @@ const ProjectProvider = ({children}) => {
         },
         viewModal:{
             isModalActive:false,
-            view: null
+            view: null,
+            index:null
         },
         addUserModal:{
             isModalActive: false,
@@ -134,8 +135,8 @@ const ProjectProvider = ({children}) => {
         setModal({...modalForm, fileModal:{isModalActive: true,file: file}})
     }
 
-    const openProjectView = (view) => {
-        setModal({...modalForm,viewModal: {isModalActive: true,view: view}})
+    const openProjectView = (view,index) => {
+        setModal({...modalForm,viewModal: {isModalActive: true,view: view,index: index}})
     }
 
     const onChangeFolder = (e,i) => {
