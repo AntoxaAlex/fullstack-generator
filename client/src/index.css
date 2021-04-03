@@ -152,6 +152,10 @@ code {
   transition: ease-in-out;
 }
 
+#disBtn{
+  color: rgba(0,0,0,0.1);
+}
+
 .transparentBtn:hover{
   text-decoration: none;
   color: #c3073f;
@@ -567,18 +571,10 @@ input[type=checkbox] {
 
 /*UI*/
 #viewsRow{
-  box-shadow: 0 0 10px #c3073f;
-  padding: 10px;
-  overflow-x: auto;
   display: grid;
-  grid-column-gap: 50px;
-  scroll-snap-type: x proximity;
-  grid-template-rows: minmax(200px, 1fr);
-  grid-template-columns: repeat(30, 200px);
 }
 
 .viewsRowItem{
-  background-size: contain;
   padding: 10px;
   scroll-snap-align: center;
   background-color: transparent;
@@ -586,6 +582,7 @@ input[type=checkbox] {
   flex-direction: column;
   justify-content: flex-end;
   align-items: inherit;
+  background-size: cover;
 }
 
 .toolBar .transparentBtn{
@@ -601,11 +598,11 @@ input[type=checkbox] {
 #toolsDiv{
   width: 5%;
   height: 100%;
+  overflow-y: auto;
   min-width: 50px;
   background-color: rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   border-right: 1px solid rgb(20,20,20);
 }
 #toolsDiv button{
@@ -916,6 +913,13 @@ input[type=checkbox] {
     grid-template-rows: 70vh;
     grid-template-columns: repeat(30,100%);
   }
+  #viewsRow{
+    overflow-x: scroll;
+    grid-column-gap: 50px;
+    scroll-snap-type: x proximity;
+    grid-template-rows: 70vh;
+    grid-template-columns: repeat(30,calc(100% - 250px));
+  }
   .projectGridSection{
     scroll-snap-align: center;
     overflow-y: auto;
@@ -980,6 +984,9 @@ input[type=checkbox] {
   .folderContainer .projectGridEndSection{
     grid-template-columns: repeat(30, calc(100% - 300px));
   }
+  .settingBarItem{
+    width: 15%;
+  }
 }
 /*Tablet Portrait*/
 @media (min-width: 768px) and (min-height: 1024px){
@@ -1030,6 +1037,12 @@ input[type=checkbox] {
   .generalRow{
     display: grid;
     grid-template-columns: repeat(3,33%);
+    padding: 10px;
+  }
+  #viewsRow{
+    display: grid;
+    grid-template-columns: repeat(3,400px);
+    grid-column-gap: 30px;
     padding: 10px;
   }
 }
@@ -1086,6 +1099,13 @@ input[type=checkbox] {
     padding: 10px;
     grid-column-gap: 0;
   }
+  #viewsRow{
+    display: grid;
+    grid-template-columns: repeat(3,400px);
+    grid-column-gap: 30px;
+    padding: 10px;
+    grid-template-rows: 400px;
+  }
 
 }
 /*Desktop*/
@@ -1112,6 +1132,13 @@ input[type=checkbox] {
   .generalRow{
     display: grid;
     grid-template-columns: repeat(3,33%);
+    padding: 10px;
+  }
+  #viewsRow{
+    display: grid;
+    grid-template-columns: repeat(3,400px);
+    grid-column-gap: 30px;
+    grid-template-rows: 400px;
     padding: 10px;
   }
   .projectGridSection{

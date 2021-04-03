@@ -5,7 +5,6 @@ import Shape from "../create_ui_components/Shape";
 import SettingBar from "../create_ui_components/SettingBar";
 import {useProjectContext} from "../../context/ProjectContext";
 
-let historyStep = 0;
 
 const ProjectView = ({inputData}) => {
     const{
@@ -20,16 +19,20 @@ const ProjectView = ({inputData}) => {
 
     const viewRef = useRef(null)
     const canvasRef = useRef(null)
+    const bgRef =useRef(null)
 
     const[canvas,setCanvas] = useState(null)
     const[canvasContent,setCanvasContent] = useState([])
     const[selectedIndex,setIndex] = useState(null)
     const[image,setImage] = useState(null)
-    const[history,setHistory] = useState([])
+
 
     useEffect(()=>{
         setCanvas(viewRef.current)
     },[])
+    useEffect(()=>{
+        if(canvasContent.length>0 && canvasContent.filter(item=>item.selected === false).length === canvasContent.length) setIndex(null)
+    })
     useEffect(()=>{
         if(view.src){
             const img = new window.Image();
@@ -39,11 +42,9 @@ const ProjectView = ({inputData}) => {
             }
         }
     },[view])
-
-    const checkDeselect = (e) => {
+     const checkDeselect = (e) => {
         // deselect when clicked on empty area
-        const clickedOnEmpty = e.target.attrs.name === "backgroundRect";
-        if (clickedOnEmpty) {
+        if ( e.target.attrs.name === "backgroundRect" || e.target.attrs.name ===  "backgroundImage") {
             const contentArray = [...canvasContent]
             contentArray.map(item=>{
                 if(item.selected){
@@ -70,14 +71,13 @@ const ProjectView = ({inputData}) => {
         const contentArray = [...canvasContent];
         contentArray[i].x = newX;
         contentArray[i].y = newY;
-        setNewHistory()
+        setCanvasContent(contentArray)
     }
 
     const onChangeShape = (name,value,i)=>{
         const contentArray = [...canvasContent];
         contentArray[i][name] = value;
         setCanvasContent(contentArray)
-        setNewHistory()
     }
 
     const onChangeItem = (i, node, scaleX, scaleY) => {
@@ -87,21 +87,6 @@ const ProjectView = ({inputData}) => {
         contentArray[i].width = Math.max(5, node.width() * scaleX)
         contentArray[i].height = Math.max( node.height() * scaleY)
         setCanvasContent(contentArray)
-        setNewHistory()
-    }
-
-    const undo = () => {
-        if(historyStep === 0) return null;
-        historyStep -=1;
-    }
-    const redo = () => {
-
-    }
-
-    const setNewHistory = () => {
-        const historyArray = [...history]
-        historyArray.push(canvasContent)
-        setHistory(historyArray)
     }
 
     const saveImage = (e) => {
@@ -190,29 +175,36 @@ const ProjectView = ({inputData}) => {
                 break;
             default: return canvasContent;
         }
-        setNewHistory()
+    }
+    const deleteItem = () => {
+        if(selectedIndex !== null){
+            const newCanvasContent = canvasContent.filter((item,i)=>selectedIndex !== i)
+            setCanvasContent(newCanvasContent)
+            setIndex(null)
+        }
     }
     return (
         <div id="projectViewDiv">
             <div id="toolsDiv">
                 <button  className="transparentBtn"><i className="far fa-save" onClick={(e)=>saveImage(e)}/></button>
-                <button  className="transparentBtn"><i className="fas fa-undo" onClick={()=>undo()}/></button>
-                <button  className="transparentBtn"><i className="fas fa-redo" onClick={()=>redo()}/></button>
+                <button id={selectedIndex !== null ? "" : "disBtn"}  className="transparentBtn"><i className="far fa-trash-alt" onClick={()=>deleteItem()}/></button>
                 <button  className="transparentBtn"><i className="fas fa-square" onClick={()=>addItem("rect")}/></button>
                 <button  className="transparentBtn"><i className="far fa-circle" onClick={()=>addItem("circle")}/></button>
                 <button  className="transparentBtn"><i className="fas fa-grip-lines-vertical" onClick={()=>addItem("line")}/></button>
                 <button  className="transparentBtn"><i className="fas fa-arrows-alt-v" onClick={()=>addItem("doubleArrow")}/></button>
                 <button  className="transparentBtn"><i className="fas fa-arrow-up" onClick={()=>addItem("singleArrow")}/></button>
                 <button  className="transparentBtn"><i className="fas fa-font" onClick={()=>addItem("text")}/></button>
-                <button  className="transparentBtn"><i className="fas fa-eraser" onClick={()=>console.log("clear")}/></button>
+                <button  className="transparentBtn"><i className="fas fa-eraser" onClick={()=> {
+                    setCanvasContent([])
+                }}/></button>
             </div>
             <div id="canvasSettingsDiv">
                 <div id="settingsDiv">
-                    <SettingBar
-                        canvasContent={canvasContent[selectedIndex]}
+                    {canvasContent.length > 0 && <SettingBar
+                        canvasContent={ canvasContent[selectedIndex]}
                         index={selectedIndex}
                         onChangeSetting={(name,value,i)=>onChangeShape(name,value,i)}
-                    />
+                    />}
                 </div>
                 <div ref={viewRef}  id="createUIDiv">
                     {canvas &&
@@ -224,9 +216,8 @@ const ProjectView = ({inputData}) => {
                         onTouchStart={(e)=>checkDeselect(e)}
                     >
                         <Layer>
-                            {!view ? <Rect name="backgroundRect" width={canvas.getBoundingClientRect().width} height={canvas.getBoundingClientRect().height} fill="white" />
-                            : <Image image={image} width={canvas.getBoundingClientRect().width} height={canvas.getBoundingClientRect().height}/>
-                            }
+                            {!view ? <Rect ref={bgRef} name="backgroundRect" width={canvas.getBoundingClientRect().width} height={canvas.getBoundingClientRect().height} fill="white" />
+                            : <Image name="backgroundImage" image={image} width={canvas.getBoundingClientRect().width} height={canvas.getBoundingClientRect().height}/>}
                             {canvasContent.map((layer,i)=>{
                                 return(
                                     <Shape
@@ -246,5 +237,6 @@ const ProjectView = ({inputData}) => {
         </div>
     );
 };
+
 
 export default ProjectView;

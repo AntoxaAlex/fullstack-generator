@@ -5,13 +5,12 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux"
 
 import ToolBar from "../create_ui_components/ToolBar";
-import {setTool,setCanvas} from "../../actions/ui";
 import SettingBar from "../create_ui_components/SettingBar";
 import Modal from "../modals/Modal";
 
 import {useProjectContext} from "../../context/ProjectContext";
 
-const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) => {
+const UI = ({removeView,onSubmitUI,ui:{canvas,tool,loading}}) => {
 
     const projectCtx = useProjectContext();
     const{
@@ -101,7 +100,6 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
 
 
     useEffect(()=>{
-        setCanvas(canvasRef.current)
         if(document.querySelector(".drawingSection")){
             setCanvasView(document.querySelector(".drawingSection").getBoundingClientRect().width)
         }
@@ -448,7 +446,6 @@ const UI = ({removeView,setCanvas,setTool,onSubmitUI,ui:{canvas,tool,loading}}) 
                 <div className="canvasDiv">
                     <ToolBar
                         setTool={(tool)=> {
-                            setTool(tool)
                             setCoordinates({
                                 startX: "",
                                 startY: "",
@@ -556,4 +553,4 @@ const mapStateToProps = state =>({
 })
 
 
-export default connect(mapStateToProps,{setTool,setCanvas})(UI)
+export default connect(mapStateToProps,{})(UI)

@@ -1,23 +1,23 @@
-import {GET_UI,SET_TOOL,SET_CANVAS} from "./types";
+import {SET_CANVAS,UNDO,REDO} from "./types";
 
-// Get UI
-export const getUI = () => async dispatch => {
-    dispatch({
-        type: GET_UI
-    })
-}
 
-export const setCanvas = (canvas) => async dispatch => {
+export const setHistoryArray = (content) => async dispatch => {
+    console.log(content)
     dispatch({
         type: SET_CANVAS,
-        payload: canvas
+        payload: content
     })
 }
 
-export const setTool = (tool) => async dispatch => {
-    console.log(tool)
+export const undoContent = (step) => async dispatch => {
     dispatch({
-        type: SET_TOOL,
-        payload: tool
+        type: UNDO,
+        payload: step
+    })
+}
+export const redoContent = (step) => async dispatch => {
+    dispatch({
+        type: REDO,
+        payload: step
     })
 }

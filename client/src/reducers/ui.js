@@ -1,31 +1,35 @@
-import {GET_UI,SET_TOOL,SET_CANVAS} from "../actions/types";
+import {SET_CANVAS,UNDO,REDO} from "../actions/types";
 
 const initialState = {
-    tool:null,
-    canvas:null,
+    canvasContent:null,
+    historyStep:-1,
     loading: true
 }
 
 export default (state = initialState,action) => {
     const{type,payload} = action;
     switch (type) {
-        case GET_UI:
-            return{
-                ...state,
-                loading: false
-            }
         case SET_CANVAS:
             return{
                 ...state,
-                canvas: payload,
+                canvasContent: payload,
+                historyStep: state.historyStep+1,
                 loading: false
             }
-        case SET_TOOL:
+        case UNDO:
             return {
                 ...state,
-                tool: payload,
-                loading: false
+                loading: false,
+                historyStep: payload
             }
+        case REDO:
+            return {
+                ...state,
+                loading: false,
+                historyStep: payload
+            }
+
+
         default:
             return state
     }
