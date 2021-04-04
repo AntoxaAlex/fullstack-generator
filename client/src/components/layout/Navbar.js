@@ -1,4 +1,4 @@
-import React, {Fragment,useEffect} from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {logout,changeTheme} from "../../actions/auth";
@@ -29,7 +29,7 @@ const Navbar = ({auth,project,changeTheme,logout}) => {
 
     return (
         <ul className="main-nav nav">
-            {auth.isAuthenticated ? <Fragment>
+            {auth.isAuthenticated && auth.user ? <Fragment>
                 {project.project ? <Link to="/" className="backBtn transparentBtn ml-2"><i className="fas fa-arrow-left"/></Link>
                     : <span id="spanId"><strong>id</strong>: {auth.user._id}</span>}
                 {project.project && <div className="d-flex">

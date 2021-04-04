@@ -1,16 +1,14 @@
 import React,{useState,Fragment,useEffect} from "react";
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {logout} from "../actions/auth";
 import {getAllProjects} from "../actions/project";
 import Modal from "./modals/Modal";
-import Navbar from "./layout/Navbar";
 import Loading from "./layout/Loading";
 import { v4 as uuidv4 } from 'uuid';
-import{connectToServerSocket} from "../clientSoket";
 
-const Home = ({logout, getAllProjects, project:{projects,loading},auth}) =>{
+const Home = ({getAllProjects, project:{projects,loading},auth}) =>{
     const[searchedText,setSearchedText] = useState("")
     const[projectsState,setProjects] = useState([])
     const[filteredProjects,setFilteredProjects]= useState([])
@@ -22,11 +20,6 @@ const Home = ({logout, getAllProjects, project:{projects,loading},auth}) =>{
         setProjects( loading || !projects ? [] : projects)
         setFilteredProjects( loading || !projects ? [] : projects)
     },[projects])
-    useEffect(()=>{
-        if(auth.isAuthenticated){
-            connectToServerSocket(auth)
-        }
-    },[])
 
     const addHiddenPanel = (i) => {
         console.log("add")
@@ -61,7 +54,7 @@ const Home = ({logout, getAllProjects, project:{projects,loading},auth}) =>{
                 {isCreationModalActive && <Modal closeModal={()=>setCreationModal(false)} type="newProject"/>}
                 <div className="container pb-3">
                     <div id="homeHeaderDiv">
-                        <img src={auth.theme === "darkTheme" ? "https://res.cloudinary.com/antoxaalex/image/upload/v1616958231/fullstack-generator/RPE9_ngwyc7.gif"
+                        <img alt="" src={auth.theme === "darkTheme" ? "https://res.cloudinary.com/antoxaalex/image/upload/v1616958231/fullstack-generator/RPE9_ngwyc7.gif"
                             : "https://res.cloudinary.com/antoxaalex/image/upload/v1616958229/fullstack-generator/Xg9q_jiqcz9.gif"
                         }/>
                         <h1 className="homeHeader">FG</h1>

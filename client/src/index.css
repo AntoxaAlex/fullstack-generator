@@ -32,6 +32,70 @@ code {
   color: #c3073f;
 }
 
+.customBtn{
+  font-size: 1.4rem;
+  padding: 0.3rem 1rem;
+  font-weight: 800;
+  background-color: transparent;
+  border-radius: 10px;
+  color: #c3073f;
+  border: 1px solid #c3073f;
+  transition: ease;
+}
+.customBtn:hover{
+  color: white;
+  background-color: #c3073f;
+  text-decoration: none;
+}
+
+.transparentBtn{
+  background-color: transparent;
+  border: none;
+  transition: ease-in-out;
+}
+
+.transparentBtn:hover{
+  text-decoration: none;
+  color: #c3073f;
+}
+
+/*========================================================Theme========================================================*/
+
+.signContainer a:hover, .nav a:hover,#spanId strong,#viewsRow .transparentBtn i:hover, .toolBar .transparentBtn i:hover,.toolBar .transparentBtn:hover{
+  color: #c3073f;
+  transition: ease;
+}
+
+.signContainer a, .signBtns{
+  color: #950740;
+ transition: ease;
+}
+
+.darkTheme p,.signContainer p,.signContainer label,.darkTheme label, .signContainer label, .darkTheme li,.darkTheme #viewsRow .transparentBtn, .darkTheme .toolBar .transparentBtn, .darkTheme .createViewBtn,.main-nav button, .main-nav a{
+  color: white;
+}
+.lightTheme p,.lightTheme label, .lightTheme li,.darkTheme .modal-div li,.darkTheme .modal-div p, .lightTheme .createViewBtn{
+  color: rgb(20,20,20);
+}
+
+
+/*========================================================Sign=========================================================*/
+
+
+.signContainer{
+  padding: 10px;
+}
+
+.signContainer h1{
+  font-size: 3rem;
+}
+
+.signContainer input:focus, #searchProjectInput:focus {
+  outline: none !important;
+  border: none;
+  box-shadow: 0 0 10px #c3073f;
+}
+
 .submitBtn{
   outline:0;
   font-size:3em;
@@ -67,59 +131,6 @@ code {
   5px 5px 0 0 #6f2232;
 }
 
-.customBtn{
-  font-size: 1.4rem;
-  padding: 0.3rem 1rem;
-  font-weight: 800;
-  background-color: transparent;
-  border-radius: 10px;
-  color: #c3073f;
-  border: 1px solid #c3073f;
-  transition: ease;
-}
-.customBtn:hover{
-  color: white;
-  background-color: #c3073f;
-  text-decoration: none;
-}
-
-/*========================================================Theme========================================================*/
-
-.signContainer a:hover, .nav a:hover,#spanId strong,#viewsRow .transparentBtn i:hover, .toolBar .transparentBtn i:hover,.toolBar .transparentBtn:hover{
-  color: #c3073f;
-  transition: ease;
-}
-
-.signContainer a, .signBtns{
-  color: #950740;
- transition: ease;
-}
-
-.darkTheme p,.signContainer p,.darkTheme label, .signContainer label, .darkTheme li,.darkTheme #viewsRow .transparentBtn, .darkTheme .toolBar .transparentBtn, .darkTheme .createViewBtn{
-  color: white;
-}
-.lightTheme p,.signContainer p,.lightTheme label, .signContainer label, .lightTheme li,.darkTheme .modal-div li,.darkTheme .modal-div p, .lightTheme .createViewBtn{
-  color: rgb(20,20,20);
-}
-
-
-/*========================================================Sign=========================================================*/
-
-
-.signContainer{
-  padding: 10px;
-}
-
-.signContainer h1{
-  font-size: 3rem;
-}
-
-.signContainer input:focus, #searchProjectInput:focus {
-  outline: none !important;
-  border: none;
-  box-shadow: 0 0 10px #c3073f;
-}
-
 
 /*=======================================================Navabar=======================================================*/
 
@@ -134,10 +145,6 @@ code {
   background-color: rgb(20,20,20);
 }
 
-.main-nav button, .main-nav a{
-  color:  rgb(206,206,207);
-}
-
 #spanId{
   margin-left: 10px;
   font-size: 1rem;
@@ -145,27 +152,11 @@ code {
 }
 
 
-
-.transparentBtn{
-  background-color: transparent;
-  border: none;
-  transition: ease-in-out;
-}
-
-#disBtn{
-  color: rgba(0,0,0,0.1);
-}
-
-.transparentBtn:hover{
-  text-decoration: none;
-  color: #c3073f;
-}
-
 /*=========================================================Home=========================================================*/
 
-#homeImg{
-  width: 100%;
-}
+/*#homeImg{*/
+/*  width: 100%;*/
+/*}*/
 
 #homeHeaderDiv{
   position: relative;
@@ -570,6 +561,9 @@ input[type=checkbox] {
 /*UI*/
 #viewsRow{
   display: grid;
+}
+#disBtn{
+  color: rgba(0,0,0,0.1);
 }
 
 .viewsRowItem{

@@ -1,7 +1,6 @@
-import React, {Fragment,useRef,useEffect,useState,useContext} from "react";
+import React, {Fragment,useRef,useEffect,useState} from "react";
 import Chart from "chart.js"
 import {useProjectContext} from "../../context/ProjectContext";
-import { v4 as uuidv4 } from 'uuid';
 
 
 const GeneralInfo = ({id,project,deleteProject}) => {
@@ -13,7 +12,6 @@ const GeneralInfo = ({id,project,deleteProject}) => {
         goals,
         openUserModal,
         openFileModal,
-        openProjectView
     } = projectCtx
 
 
@@ -132,64 +130,48 @@ const GeneralInfo = ({id,project,deleteProject}) => {
         <Fragment>
             <div className="generalRow">
                 <div className="projectGridSection">
-                    <div className="">
+                    <div>
                         <h1 className="projectGridHeader">{formData.title}
                         <span className="settingSpan">
                             <button type="button" className="editBtn" onClick={()=>editContent("title")}><i className="fas fa-cog"/></button>
                         </span></h1>
                     </div>
                     <hr/>
-                    <div className="">
-                        <div className="">
-                            <h5>
-                                Main purpose
-                                <span className="settingSpan">
+                    <div>
+                        <h5>
+                            Main purpose
+                            <span className="settingSpan">
                                     <button type="button" className="editBtn" onClick={()=>editContent("purpose")}><i className="fas fa-cog"/></button>
                                 </span>
-                            </h5>
-                        </div>
+                        </h5>
                         <div className="">
-                            <div className="">
-                                <p className="generalInfoText m-0">{formData.purpose}</p>
-                            </div>
-                            <hr/>
+                            <p className="generalInfoText m-0">{formData.purpose}</p>
                         </div>
+                        <hr/>
                     </div>
-                    <div className="">
-                        <div className="">
-                            <h5>
-                                Main goals
-                                <span className="settingSpan">
+                    <div>
+                        <h5>
+                            Main goals
+                            <span className="settingSpan">
                                     <button type="button" className="editBtn" onClick={()=>editContent("goals")}><i className="fas fa-cog"/></button>
                                 </span>
-                            </h5>
-                        </div>
-                        <div className="">
-                            <div className="">
-                                <ol>
-                                    {goals.map((goal,i)=>{
-                                        return(
-                                            <li className="generalInfoText mb-3" key={uuidv4()}>{goal}</li>
-                                        )
-                                    })}
-                                </ol>
-                            </div>
-                            <hr/>
-                        </div>
+                        </h5>
+                        <ol>
+                            {goals.map((goal,i)=>{
+                                return(
+                                    <li className="generalInfoText mb-3" key={i}>{goal}</li>
+                                )
+                            })}
+                        </ol>
+                        <hr/>
                     </div>
-                    <div className="">
-                        <div className="">
-                            <h5>Stack</h5>
-                        </div>
-                        <div className="">
-                            <div className="">
-                                <p className="m-0">Front-end {formData.frontend.archType === "react" ? <img alt="" width={40} height={40} src="https://res.cloudinary.com/antoxaalex/image/upload/v1615643764/fullstack-generator/react-2_wxmb9s.svg"/> : "front-end"}</p>
-                            </div>
-                            <div className="">
-                                <p className="m-0">Back-end {formData.backend.archType === "node" ? <img alt="" width={40} height={40} src="https://res.cloudinary.com/antoxaalex/image/upload/v1615643551/fullstack-generator/nodejs-icon_ocbswf.svg"/> :" backend"}</p>
-                            </div>
-                            <hr/>
-                        </div>
+                    <div>
+                        <h5>Stack</h5>
+                        <p className="m-0">Front-end {formData.frontend.archType === "react" ? <img alt="" width={40} height={40} src="https://res.cloudinary.com/antoxaalex/image/upload/v1615643764/fullstack-generator/react-2_wxmb9s.svg"/> : "front-end"}</p>
+
+                        <p className="m-0">Back-end {formData.backend.archType === "node" ? <img alt="" width={40} height={40} src="https://res.cloudinary.com/antoxaalex/image/upload/v1615643551/fullstack-generator/nodejs-icon_ocbswf.svg"/> :" backend"}</p>
+
+                        <hr/>
                     </div>
                     <div className="text-center">
                         <button type="button" className="btn btn-sm btn-outline-danger" onClick={()=>deleteProject(id)}>Delete project</button>
@@ -201,7 +183,7 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                     <ul>
                         {project.users.map((user,i)=>{
                             return(
-                                <li key={uuidv4()}>{user.user.firstname + " " + user.user.secondname}</li>
+                                <li key={i}>{user.user.firstname + " " + user.user.secondname}</li>
                             )
                         })}
                     </ul>
@@ -211,12 +193,12 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                     <ol>
                         {project.checklist.filter(item=>!item.isItemCompleted).map((item,i)=>{
                             if(i === 0) return(
-                                <Fragment key={uuidv4()}>
+                                <Fragment key={i}>
                                     <h5>{item.title}</h5>
                                     <ol>
                                         {item.paragraphs.map((paragraph,i)=>{
                                             if(!paragraph.isParCompleted) return(
-                                                <li key={uuidv4()}>{paragraph.text}</li>
+                                                <li key={i}>{paragraph.text}</li>
                                             )
                                         })}
                                     </ol>
@@ -236,7 +218,7 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                     <div className="projectViewColumn">
                         {project.projectView.map((view,i)=>{
                             return(
-                                <div key={uuidv4()} style={{borderRadius: "15px",border: "1px solid gray"}} className="projectViewColumnItem">
+                                <div key={i} style={{borderRadius: "15px",border: "1px solid gray"}} className="projectViewColumnItem">
                                     <h5>{view.title}</h5>
                                     <div style={{width: "100%",height:"300px", backgroundImage:`url(${view.image})`}}/>
                                 </div>
@@ -249,7 +231,7 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                     <div className="projectGridEndSection mb-3">
                         {project.frontend.files.map((file,i)=>{
                             return(
-                                <div className="projectGridItem" key={uuidv4()}>
+                                <div className="projectGridItem" key={i}>
                                     <button type="button" onClick={()=>openFileModal(file,i)}>
                                         <img alt="" width={50} height={50} src={selectFileImg(file.type)}/>
                                         <p>{file.title}</p>
@@ -261,7 +243,7 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                     <div className="projectGridEndSection">
                         {project.backend.files.map((file,i)=>{
                             return(
-                                <div className="projectGridItem" key={uuidv4()}>
+                                <div className="projectGridItem" key={i}>
                                     <button type="button" onClick={()=>openFileModal(file,i)}>
                                         <img alt="" width={50} height={50} src={selectFileImg(file.type)}/>
                                         <p>{file.title}</p>

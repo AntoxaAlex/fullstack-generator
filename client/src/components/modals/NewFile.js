@@ -1,5 +1,4 @@
 import React, {Fragment, useState} from "react";
-import { v4 as uuidv4 } from 'uuid';
 
 const NewFile = ({inputData}) => {
     const[modalFormData,setData] = useState({
@@ -59,12 +58,12 @@ const NewFile = ({inputData}) => {
                         <option value="">Choose folder</option>
                         {fileSection === "frontend" && fileSection && fileSection !== "" && folders.filter((folder)=>folder.section === "frontend").map((folder,i)=>{
                             return(
-                                <option key={uuidv4()} value={folders.indexOf(folder)}>{folder.title}</option>
+                                <option key={i} value={folders.indexOf(folder)}>{folder.title}</option>
                             )
                         })}
                         {fileSection === "backend" && fileSection && fileSection !== "" && folders.filter(folder=>folder.section === "backend").map((folder,i)=>{
                             return(
-                                <option key={uuidv4()} value={folders.indexOf(folder)}>{folder.title}</option>
+                                <option key={i} value={folders.indexOf(folder)}>{folder.title}</option>
                             )
                         })}
                     </select>

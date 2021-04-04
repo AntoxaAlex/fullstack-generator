@@ -1,8 +1,8 @@
 import React, {Fragment, useState,useEffect} from "react";
 import ForceGraph2D from 'react-force-graph-2d';
-import { v4 as uuidv4 } from 'uuid';
 
 const File = ({inputData}) => {
+
     const[hiddenContent,setHiddenContent] = useState({
         isInterdepActive: true,
         isNewDepActive: false,
@@ -95,10 +95,13 @@ const File = ({inputData}) => {
                 <ul className="featuresList">
                     {file.features.map((feature,i)=>{
                         return(
-                            <li key={uuidv4()}>{feature.text}</li>
+                            <li key={i}>{feature.text}</li>
                         )
                     })}
                 </ul>
+            </div>
+            <div className="text-center">
+                <button type="button" className="btn btn-sm btn-outline-danger" onClick={(e)=>inputData.removeFile(e,file)}>Delete file</button>
             </div>
             <ul className="nav nav-tabs">
                 <li className="nav-item d-flex">
@@ -152,13 +155,13 @@ const File = ({inputData}) => {
                             <option value="">Frontend</option>
                             {files.filter(searchedFile=>searchedFile._id !== file._id && searchedFile.section === "frontend").map((file,i)=>{
                                 return(
-                                    <option key={uuidv4()} value={file._id}>{file.title}</option>
+                                    <option key={i} value={file._id}>{file.title}</option>
                                 )
                             })}
                             <option value="">Backend</option>
                             {files.filter(searchedFile=>searchedFile._id !== file._id && searchedFile.section === "backend").map((file,i)=>{
                                 return(
-                                    <option key={uuidv4()} value={file._id}>{file.title}</option>
+                                    <option key={i} value={file._id}>{file.title}</option>
                                 )
                             })}
                         </select>

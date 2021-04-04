@@ -32,7 +32,9 @@ router.post("/",auth,[
 
         let project = await Project.findById(req.params.id);
         project[section].files.push(file)
-        project.folders[folderIndex].files.push({file:file._id})
+        if(folderTitle){
+            project.folders[folderIndex].files.push({file:file._id})
+        }
         await project.save();
         project = await Project.findById(req.params.id).populate({
             path: "frontend",

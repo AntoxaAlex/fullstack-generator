@@ -12,7 +12,7 @@ const Shape = ({i,shape,selectItem,dragItem,onChangeItem}) => {
         }
     },[shape.selected,trRef])
 
-    const transformItem = (e) => {
+    const transformItem = () => {
         // transformer is changing scale of the node
         // and NOT its width or height
         // but in the store we have only width and height
@@ -47,7 +47,7 @@ const Shape = ({i,shape,selectItem,dragItem,onChangeItem}) => {
                 onTap={()=>selectItem(i)}
                 draggable
                 onDragEnd={(e) => dragItem(e,i)}
-                onTransformEnd={(e) => transformItem(e)}
+                onTransformEnd={() => transformItem()}
             />
             }
             {shape.type === "circle" &&
@@ -64,6 +64,7 @@ const Shape = ({i,shape,selectItem,dragItem,onChangeItem}) => {
                 onTap={()=>selectItem(i)}
                 draggable
                 onDragEnd={(e) => dragItem(e,i)}
+                onTransformEnd={() => transformItem()}
             />
             }
             {shape.type === "line" &&
@@ -79,6 +80,7 @@ const Shape = ({i,shape,selectItem,dragItem,onChangeItem}) => {
                 onTap={()=>selectItem(i)}
                 draggable
                 onDragEnd={(e) => dragItem(e,i)}
+                onTransformEnd={() => transformItem()}
             />
             }
             {shape.type === "doubleArrow" && <Arrow
@@ -94,6 +96,7 @@ const Shape = ({i,shape,selectItem,dragItem,onChangeItem}) => {
                 onTap={()=>selectItem(i)}
                 draggable
                 onDragEnd={(e) => dragItem(e,i)}
+                onTransformEnd={() => transformItem()}
             />}
             {shape.type === "singleArrow" && <Arrow
                 ref={shapeRef}
@@ -108,6 +111,7 @@ const Shape = ({i,shape,selectItem,dragItem,onChangeItem}) => {
                 onTap={()=>selectItem(i)}
                 draggable
                 onDragEnd={(e) => dragItem(e,i)}
+                onTransformEnd={() => transformItem()}
             />}
             {shape.type === "text" &&
             <Text
@@ -120,12 +124,13 @@ const Shape = ({i,shape,selectItem,dragItem,onChangeItem}) => {
                 width={shape.width}
                 height={shape.height}
                 fontSize={shape.fontSize}
-                stroke={shape.fontColor}
+                stroke={shape.color}
                 text={shape.text}
                 onClick={()=>selectItem(i)}
                 onTap={()=>selectItem(i)}
                 draggable
                 onDragEnd={(e) => dragItem(e,i)}
+                onTransformEnd={() => transformItem()}
             />}
             {shape.selected &&
             <Transformer

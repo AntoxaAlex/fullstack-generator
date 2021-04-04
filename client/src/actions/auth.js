@@ -73,9 +73,9 @@ export const login = (email,password) => async dispatch =>{
             payload: res.data
         })
         dispatch(loadUser());
-        dispatch(setAlert("Wellcome back","success"))
+        dispatch(setAlert("Welcome back","success"))
     }catch (e) {
-        console.log(e.message);
+        console.log(e)
         const errors = e.response.data.errors;
         console.log(errors);
         errors.forEach(error=>dispatch(setAlert(error.msg,"danger")));

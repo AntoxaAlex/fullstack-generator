@@ -1,6 +1,5 @@
 import React, {useEffect,useState} from "react";
 import {useProjectContext} from "../../context/ProjectContext";
-import { v4 as uuidv4 } from 'uuid';
 
 const Checklist = ({checklist,changeCheckbox}) => {
 
@@ -29,13 +28,13 @@ const Checklist = ({checklist,changeCheckbox}) => {
                 <div className="row">
                     {checklist.map((item,listIndex)=>{
                         return(
-                            <div key={uuidv4()} className="col-12 col-lg-4 mb-3">
+                            <div key={listIndex} className="col-12 col-lg-4 mb-3">
                                 <div className="checklistItem p-3" style={{backgroundColor: colors[listIndex]}}>
                                     <h5 className={checklist[listIndex].isItemCompleted ? "taskDone" : "projectGridHeader "}>{listIndex+1}.{item.title}</h5>
                                     <ul>
                                         {item.paragraphs.map((paragraph,liIndex)=>{
                                             return(
-                                                <li key={uuidv4()} className={checklist[listIndex].paragraphs[liIndex].isParCompleted ? "taskDone" : ""}>
+                                                <li key={liIndex} className={checklist[listIndex].paragraphs[liIndex].isParCompleted ? "taskDone" : ""}>
                                                     <input
                                                         type="checkbox"
                                                         checked={checklist[listIndex].paragraphs[liIndex].isParCompleted}

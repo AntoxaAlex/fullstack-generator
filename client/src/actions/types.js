@@ -13,7 +13,4 @@ export const NEW_PROJECT = "NEW_PROJECT";
 export const PROJECT_MODIFIED = "PROJECT_MODIFIED";
 export const PROJECT_DELETED = "PROJECT_DELETED";
 export const PROJECT_ERROR = "PROJECT_ERROR";
-export const UNDO = "UNDO"
-export const REDO = "REDO"
-export const SET_CANVAS = "SET_CANVAS"
 export const CHANGE_THEME = "CHANGE_THEME"

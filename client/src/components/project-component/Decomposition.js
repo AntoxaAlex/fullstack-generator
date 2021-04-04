@@ -3,13 +3,12 @@ import {useProjectContext} from "../../context/ProjectContext";
 import ForceGraph3D from "react-force-graph-3d"
 import ForceGraph2D from "react-force-graph-2d";
 
-const Decomposition = ({id,project}) => {
+const Decomposition = ({project}) => {
     const projectCtx = useProjectContext();
     const diagramRef = useRef(null)
     const{
         activeTabs,
         openFileCreateModal,
-        removeFile,
         openFileModal,
         addNewFolder
     } = projectCtx
@@ -36,7 +35,7 @@ const Decomposition = ({id,project}) => {
             project.frontend.files.concat(project.backend.files).map(file=>{
                 nodes.push({
                     id: file._id.toString(),
-                    name: file.title + ` (${file.folder})`,
+                    name: file.title + ` (${file.folder && file.folder !== "" ? file.folder : "no folder"})`,
                     val: 0.5,
                     color: file.section === "frontend" ? "#f85032" : "#00B4DB"
                 })
@@ -71,7 +70,7 @@ const Decomposition = ({id,project}) => {
     if(!activeTabs.decomposition) return null;
     return(
         <div>
-            <div id="filesFolderBtnsDiv" className="text-center">
+            <div id="filesFolderBtnsDiv" className="text-center mb-2">
                 <button type="button" className="createFileBtn" onClick={()=>addNewFolder()}><i className="fas fa-folder-plus"/></button>
                 <button type="button" className="createFileBtn" onClick={()=>openFileCreateModal()}><i className="fas fa-file-signature"/></button>
             </div>

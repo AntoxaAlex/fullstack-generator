@@ -1,6 +1,5 @@
-import React,{useState,useRef,useEffect,Fragment} from 'react';
-import { Stage, Layer, Rect, Image} from 'react-konva';
-import Konva from 'konva';
+import React,{useState,useRef,useEffect} from 'react';
+import { Stage, Layer, Rect} from 'react-konva';
 import Shape from "../create_ui_components/Shape";
 import SettingBar from "../create_ui_components/SettingBar";
 import {useProjectContext} from "../../context/ProjectContext";
@@ -18,7 +17,6 @@ const ProjectView = ({inputData}) => {
     } = projectCtx
 
     const viewRef = useRef(null)
-    const canvasRef = useRef(null)
     const bgRef =useRef(null)
     const stageRef = useRef(null)
 
@@ -34,7 +32,6 @@ const ProjectView = ({inputData}) => {
     })
     const[canvasContent,setCanvasContent] = useState([])
     const[selectedIndex,setIndex] = useState(null)
-    const[image,setImage] = useState(null)
 
 
     useEffect(()=>{
@@ -61,9 +58,6 @@ const ProjectView = ({inputData}) => {
         }
         setZoomPosition({x:e.evt.clientX,y:e.evt.clientY})
     };
-    const checkWidth = () => {
-
-    }
     const zoomPlus = (e) => {
         e.preventDefault()
         const scaleBy = 1.07;

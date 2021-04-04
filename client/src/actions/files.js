@@ -10,7 +10,7 @@ export const createFile = (id,folderIndex,folderTitle,section,type,title,feature
     }
     const body = JSON.stringify({
         folderIndex,
-        folderTitle,
+        folderTitle: folderTitle ? folderTitle : null,
         section,
         type,
         title,

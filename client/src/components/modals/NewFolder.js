@@ -1,5 +1,4 @@
 import React, {Fragment} from 'react';
-import { v4 as uuidv4 } from 'uuid';
 
 const NewFolder = ({inputData}) => {
     const{
@@ -12,7 +11,7 @@ const NewFolder = ({inputData}) => {
         <h2 className="text-center">Create new folder</h2>
         <form onSubmit={(e)=>inputData.onSubmitForm(e)}>
             <div className="mb-3">
-                <input type="text" className="form-control"placeholder="Title" autoComplete="off" name="title" id="folderTitle" value={folderTitle} onChange={(e)=>inputData.onChangeValue(e,folderIndex)}/>
+                <input type="text" className="form-control" placeholder="Title" autoComplete="off" name="title" id="folderTitle" value={folderTitle} onChange={(e)=>inputData.onChangeValue(e,folderIndex)}/>
             </div>
             <div className="mb-3">
                 <select className="form-control" id="folderSection" name="section" value={folderSection} onChange={(e)=>inputData.onChangeValue(e,folderIndex)} aria-label="Default select example">

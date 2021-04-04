@@ -100,6 +100,29 @@ const Project = ({getProjectById, deleteProject, editProject,createFile, project
         editProject("manual",id,title,purpose,goals,users,frontend,backend,folders,checklist,intedepData,viewArr,workingTime)
     }
 
+    const deleteFile= (e,file) => {
+        e.preventDefault()
+        if(file.section === "frontend"){
+            const newFrontArr = formData.frontend.files.filter(searchedFile=>searchedFile._id !== file._id)
+            setFormData({...formData,frontend:{files :newFrontArr}})
+
+            const array = [...intedepData]
+            const newInterDep = array.filter(item=>item.sender._id !== file._id && item.receiver._id !== file._id)
+            setIntedepData(newInterDep)
+
+            editProject("manual",id,title,purpose,goals,users, {files:newFrontArr,archType:formData.frontend.archType},backend,folders,checklist,newInterDep,projectViewState,workingTime,theme)
+        } else if(file.section === "backend"){
+            const newBackArr = formData.backend.files.filter(searchedFile=>searchedFile._id !== file._id)
+            setFormData({...formData,backend:{files :newBackArr}})
+
+            const array = [...intedepData]
+            const newInterDep = array.filter(item=>item.sender._id !== file._id && item.receiver._id !== file._id)
+            setIntedepData(newInterDep)
+            editProject("manual",id,title,purpose,goals,users,frontend,{files:newBackArr,archType:formData.backend.archType},folders,checklist,newInterDep,projectViewState,workingTime,theme)
+        }
+
+    }
+
     const changeCheckbox = (listIndex,liIndex) => {
         const newChecklist = [...formData.checklist]
         newChecklist[listIndex].paragraphs[liIndex].isParCompleted = !newChecklist[listIndex].paragraphs[liIndex].isParCompleted
@@ -112,10 +135,6 @@ const Project = ({getProjectById, deleteProject, editProject,createFile, project
         editProject("manual",id,title,purpose,goals,users,frontend,backend,folders,checklist,intedepData,projectViewState,workingTime,theme)
     }
 
-    const onChangeTheme = () => {
-        editProject("auto",id,title,purpose,goals,users,frontend,backend,folders,checklist,intedepData,projectViewState,workingTime,theme === "light" ? "dark" : "light")
-    }
-
     const onSubmitProject = (e) => {
         e.preventDefault();
         editProject("manual",id,title,purpose,goals,users,frontend,backend,folders,checklist,intedepData,projectViewState,workingTime,theme)
@@ -124,7 +143,7 @@ const Project = ({getProjectById, deleteProject, editProject,createFile, project
     const onSubmitNewFile = (e,modalFormData,features) => {
         e.preventDefault();
         const{fileSection,folderIndex,fileType,fileTitle} = modalFormData
-        createFile(id,folderIndex,project.folders[folderIndex].title,fileSection,fileType,fileTitle,features)
+        createFile(id,folderIndex,project.folders.length > 0 ? project.folders[folderIndex].title : null,fileSection,fileType,fileTitle,features)
         setModal({...modalForm,fileCreateModal: {isModalActive: !modalForm.fileCreateModal.isModalActive}});
     }
 
@@ -175,7 +194,8 @@ const Project = ({getProjectById, deleteProject, editProject,createFile, project
                             },
                             addNewDep:()=>addNewDep(),
                             onSubmitDepForm:(e)=>onSubmitProject(e),
-                            onChangeValue:(e,i,id)=>onChangeInterdep(e,i,id)
+                            onChangeValue:(e,i,id)=>onChangeInterdep(e,i,id),
+                            removeFile: (e,file)=>deleteFile(e,file)
                         }}
                     />}
                 {modalForm.viewModal.isModalActive &&

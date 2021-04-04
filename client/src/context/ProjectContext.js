@@ -164,14 +164,6 @@ const ProjectProvider = ({children}) => {
         setModal({...modalForm,addUserModal: {isModalActive: true,index:users.length}})
     }
 
-    const deleteDepFile = (id) => {
-        console.log(id)
-        const array = [...intedepData]
-        const newInterDep = array.filter(file=>file._id !== id)
-        console.log(newInterDep)
-        setIntedepData(newInterDep)
-
-    }
 
 
     const onChangeInterdep = (e,index,id) => {
@@ -194,6 +186,8 @@ const ProjectProvider = ({children}) => {
         viewsArr[i].image = data.image;
         setProjectView(viewsArr)
     }
+
+
 
 
     return (
@@ -230,7 +224,6 @@ const ProjectProvider = ({children}) => {
             onChangeFolder,
             onChangeFolderFiles,
             openUserModal,
-            deleteDepFile,
             onChangeInterdep,
             onChangeViewTitle,
             onChangeProjectView,
