@@ -145,6 +145,23 @@ const UI = ({removeView,onSubmitUI,ui:{canvas,tool,loading}}) => {
     },[viewState.index,uiData.ctx,activeTabs.ui])
 
 
+
+    const openPanel = (index) => {
+        let item = document.querySelector("#rowItem" + index);
+        if(item.classList.contains("collapsed")){
+            item.classList.remove("collapsed")
+            setTimeout(()=>{
+                item.classList.add("opened")
+            },500)
+        } else if(item.classList.contains("opened")) {
+            item.classList.remove("opened")
+            setTimeout(()=>{
+                item.classList.add("collapsed")
+            },500)
+        }
+    }
+
+
     const addNewCanvas = async (e) => {
         e.preventDefault();
         setViewTextModal(!isTextModalOpened)
@@ -427,17 +444,20 @@ const UI = ({removeView,onSubmitUI,ui:{canvas,tool,loading}}) => {
                         addNewView()
                         setViewTextModal(!isTextModalOpened)
                     }}
-                    className="transparentBtn"
+                    className="createViewBtn"
                 >
                     <i className="fas fa-plus"/>
                 </button>
                 {projectViewState.map((view,i)=>{
                     return(
-                        <div key={uuidv4()} className="viewsRowItem" style={{backgroundImage:`url(${projectViewState[i].src})`}}>
-
-                            <p className="text-center">{view.title}</p>
-                            <button type="button" className="btn btn-sm btn-primary" onClick={()=>openProjectView(view,i)}>See view</button>
-                            <button type="button" className="btn btn-sm btn-danger" onClick={(e)=>removeView(e,i)}>Delete</button>
+                        <div key={uuidv4} id={"rowItem" + i} className="viewsRowItem collapsed" style={{backgroundImage:`url(${projectViewState[i].image})`}}>
+                            <div className="bottomPanel">
+                                <h5 className="text-center">{view.title}</h5>
+                                <div style={{display: "flex",alignItems:"center",justifyContent: "space-around"}}>
+                                    <button type="button" className="btn btn-sm btn-primary" onClick={()=>openProjectView(view,i)}>See view</button>
+                                    <button type="button" className="btn btn-sm btn-danger" onClick={(e)=>removeView(e,i)}>Delete</button>
+                                </div>
+                            </div>
                         </div>
                     )
                 })}

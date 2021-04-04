@@ -108,8 +108,9 @@ const ProjectProvider = ({children}) => {
     const addNewView = () => {
         const viewsArr = [...projectViewState]
         viewsArr.push({
-            src: "",
-            title: ""
+            content: null,
+            title: "",
+            image:null
         })
         setProjectView(viewsArr)
     }
@@ -187,9 +188,10 @@ const ProjectProvider = ({children}) => {
         setProjectView(viewsArr)
     }
 
-    const onChangeProjectView = (src,i) => {
+    const onChangeProjectView = (data,i) => {
         const viewsArr = [...projectViewState];
-        viewsArr[i].src = src;
+        viewsArr[i].content = data.content;
+        viewsArr[i].image = data.image;
         setProjectView(viewsArr)
     }
 

@@ -20,8 +20,18 @@ const ProjectView = ({inputData}) => {
     const viewRef = useRef(null)
     const canvasRef = useRef(null)
     const bgRef =useRef(null)
+    const stageRef = useRef(null)
 
     const[canvas,setCanvas] = useState(null)
+    const[stageState,setStageState] = useState({
+        stageScale:1,
+        stageX:0,
+        stageY:0
+    })
+    const[zoomPosition,setZoomPosition] = useState({
+        x:0,
+        y:0
+    })
     const[canvasContent,setCanvasContent] = useState([])
     const[selectedIndex,setIndex] = useState(null)
     const[image,setImage] = useState(null)
@@ -34,12 +44,8 @@ const ProjectView = ({inputData}) => {
         if(canvasContent.length>0 && canvasContent.filter(item=>item.selected === false).length === canvasContent.length) setIndex(null)
     })
     useEffect(()=>{
-        if(view.src){
-            const img = new window.Image();
-            img.src = view.src
-            img.onload = () => {
-                setImage(img)
-            }
+        if(view.content){
+            setCanvasContent(view.content)
         }
     },[view])
      const checkDeselect = (e) => {
@@ -53,7 +59,49 @@ const ProjectView = ({inputData}) => {
             })
             setCanvasContent(contentArray)
         }
+        setZoomPosition({x:e.evt.clientX,y:e.evt.clientY})
     };
+    const checkWidth = () => {
+
+    }
+    const zoomPlus = (e) => {
+        e.preventDefault()
+        const scaleBy = 1.07;
+        const oldScale = stageRef.current.scaleX();
+
+        const zoomPoint ={
+            x: (zoomPosition.x - stageRef.current.x()) / oldScale,
+            y: (zoomPosition.y - stageRef.current.y()) / oldScale,
+        }
+        const newScale = oldScale * scaleBy;
+
+        stageRef.current.scale = newScale;
+
+        setStageState({...stageState,
+            stageScale: newScale,
+            stageX: -(zoomPoint.x - zoomPosition.x/newScale)*newScale,
+            stageY: -(zoomPoint.y - zoomPosition.y/newScale)*newScale
+        })
+    }
+    const zoomMinus = (e) => {
+        e.preventDefault()
+        const scaleBy = 1.07;
+        const oldScale = stageRef.current.scaleX();
+
+        const zoomPoint ={
+            x: (zoomPosition.x - stageRef.current.x()) / oldScale,
+            y: (zoomPosition.y - stageRef.current.y()) / oldScale,
+        }
+        const newScale = oldScale / scaleBy;
+
+        stageRef.current.scale = newScale;
+
+        setStageState({...stageState,
+            stageScale: newScale,
+            stageX: -(zoomPoint.x - zoomPosition.x/newScale)*newScale,
+            stageY: -(zoomPoint.y - zoomPosition.y/newScale)*newScale
+        })
+    }
     const selectItem = (index) => {
         const contentArray = [...canvasContent]
         contentArray[index].selected = !contentArray[index].selected
@@ -90,7 +138,7 @@ const ProjectView = ({inputData}) => {
     }
 
     const saveImage = (e) => {
-        onChangeProjectView(canvasRef.current.toDataURL(),viewIndex)
+        onChangeProjectView({content:canvasContent,image:stageRef.current.toDataURL()},viewIndex)
         inputData.onSubmitUI(e)
     }
 
@@ -176,6 +224,15 @@ const ProjectView = ({inputData}) => {
             default: return canvasContent;
         }
     }
+    const dublicateItem = () => {
+        if(selectedIndex !== null){
+            const mainItem = canvasContent.filter((item,i)=>selectedIndex === i)[0]
+            let newItem = {...mainItem,x:canvas.getBoundingClientRect().width/2,y:canvas.getBoundingClientRect().height/2}
+            const contentArray = [...canvasContent];
+            contentArray.push(newItem)
+            setCanvasContent(contentArray)
+        }
+    }
     const deleteItem = () => {
         if(selectedIndex !== null){
             const newCanvasContent = canvasContent.filter((item,i)=>selectedIndex !== i)
@@ -187,7 +244,10 @@ const ProjectView = ({inputData}) => {
         <div id="projectViewDiv">
             <div id="toolsDiv">
                 <button  className="transparentBtn"><i className="far fa-save" onClick={(e)=>saveImage(e)}/></button>
-                <button id={selectedIndex !== null ? "" : "disBtn"}  className="transparentBtn"><i className="far fa-trash-alt" onClick={()=>deleteItem()}/></button>
+                <button  className="transparentBtn"><i className="fas fa-search-plus" onClick={(e)=>zoomPlus(e)}/></button>
+                <button  className="transparentBtn"><i className="fas fa-search-minus" onClick={(e)=>zoomMinus(e)}/></button>
+                <button id={selectedIndex !== null ? "" : "disBtn"} className="transparentBtn"><i className="far fa-copy" onClick={()=>dublicateItem()}/></button>
+                <button id={selectedIndex !== null ? "" : "disBtn"} className="transparentBtn"><i className="far fa-trash-alt" onClick={()=>deleteItem()}/></button>
                 <button  className="transparentBtn"><i className="fas fa-square" onClick={()=>addItem("rect")}/></button>
                 <button  className="transparentBtn"><i className="far fa-circle" onClick={()=>addItem("circle")}/></button>
                 <button  className="transparentBtn"><i className="fas fa-grip-lines-vertical" onClick={()=>addItem("line")}/></button>
@@ -209,15 +269,20 @@ const ProjectView = ({inputData}) => {
                 <div ref={viewRef}  id="createUIDiv">
                     {canvas &&
                     <Stage
-                        ref={canvasRef}
-                        width={canvas.getBoundingClientRect().width}
-                        height={canvas.getBoundingClientRect().height}
+                        ref={stageRef}
+                        width={1280}
+                        height={720}
+                        // offsetX={document.querySelector("#createUIDiv").getBoundingClientRect().width - 1280}
+                        // offsetY={document.querySelector("#createUIDiv").getBoundingClientRect().height - 720}
                         onMouseDown={(e)=>checkDeselect(e)}
                         onTouchStart={(e)=>checkDeselect(e)}
+                        scaleX={stageState.stageScale}
+                        scaleY={stageState.stageScale}
+                        x={stageState.stageX}
+                        y={stageState.stageY}
                     >
                         <Layer>
-                            {!view ? <Rect ref={bgRef} name="backgroundRect" width={canvas.getBoundingClientRect().width} height={canvas.getBoundingClientRect().height} fill="white" />
-                            : <Image name="backgroundImage" image={image} width={canvas.getBoundingClientRect().width} height={canvas.getBoundingClientRect().height}/>}
+                            <Rect ref={bgRef} name="backgroundRect" width={canvas.getBoundingClientRect().width} height={canvas.getBoundingClientRect().height} fill="white" />
                             {canvasContent.map((layer,i)=>{
                                 return(
                                     <Shape

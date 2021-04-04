@@ -95,10 +95,10 @@ code {
  transition: ease;
 }
 
-.darkTheme p,.signContainer p,.darkTheme label, .signContainer label, .darkTheme li,.darkTheme #viewsRow .transparentBtn, .darkTheme .toolBar .transparentBtn{
+.darkTheme p,.signContainer p,.darkTheme label, .signContainer label, .darkTheme li,.darkTheme #viewsRow .transparentBtn, .darkTheme .toolBar .transparentBtn, .darkTheme .createViewBtn{
   color: white;
 }
-.lightTheme p,.signContainer p,.lightTheme label, .signContainer label, .lightTheme li,.darkTheme .modal-div li,.darkTheme .modal-div p{
+.lightTheme p,.signContainer p,.lightTheme label, .signContainer label, .lightTheme li,.darkTheme .modal-div li,.darkTheme .modal-div p, .lightTheme .createViewBtn{
   color: rgb(20,20,20);
 }
 
@@ -480,8 +480,6 @@ input[type=checkbox] {
 }
 
 .projectViewColumnItem img{
-  width: 100%;
-  height: 300px;
   margin-bottom: 20px;
   cursor: pointer;
 }
@@ -494,7 +492,7 @@ input[type=checkbox] {
   grid-template-rows: minmax(100px, 1fr);
 }
 
-.projectGridEndSection::-webkit-scrollbar{
+.projectGridEndSection::-webkit-scrollbar, .modal-div::-webkit-scrollbar{
   width: 10px;
   height: 5px;
 }
@@ -578,11 +576,17 @@ input[type=checkbox] {
   padding: 10px;
   scroll-snap-align: center;
   background-color: transparent;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: inherit;
-  background-size: cover;
+  border-radius: 15px;
+  position: relative;
+}
+
+.viewsRowItem img{
+  width: calc(70vh * 1.77777778);
+}
+
+#createUIDiv{
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 .toolBar .transparentBtn{
@@ -590,13 +594,13 @@ input[type=checkbox] {
 }
 
 #projectViewDiv{
-  width: 100%;
-  height: calc(100% - 40px);
+  width: 1330px;
+  height: 760px;
   border: 1px solid rgb(20,20,20);
   display: flex;
 }
 #toolsDiv{
-  width: 5%;
+  width: 50px;
   height: 100%;
   overflow-y: auto;
   min-width: 50px;
@@ -608,10 +612,7 @@ input[type=checkbox] {
 #toolsDiv button{
   margin: auto 0;
 }
-#canvasSettingsDiv{
-  width: 95%;
-  height: 100%;
-}
+
 #settingsDiv{
   width: 100%;
   height: 50px;
@@ -622,7 +623,7 @@ input[type=checkbox] {
   align-items: center;
 }
 #createUIDiv{
-  height: calc(100% - 50px);
+
 }
 
 /*Decomposition*/
@@ -668,10 +669,14 @@ input[type=checkbox] {
   opacity: 0.1;
 }
 
-#viewsRow .transparentBtn{
+.createViewBtn{
   font-size: 3rem;
-  margin:auto 20px;
+  box-shadow: inset 0 0 7px #c3073f;
+  background-color: transparent;
+  border: none;
+  transition: ease;
 }
+
 
 
 .drawingSection{
@@ -686,15 +691,6 @@ input[type=checkbox] {
   display: flex;
 }
 
-
-
-.hiddenBtnDiv{
-  opacity: 0;
-}
-
-.collapsed .hiddenBtnDiv{
-  display: none;
-}
 
 .showBtn{
   cursor: pointer;
@@ -723,21 +719,6 @@ input[type=checkbox] {
   justify-content: center;
 }
 
-.folderDiv{
-  margin-bottom: 20px;
-}
-
-
-.folderPanel{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  background-color: gray;
-  padding: 0 10px;
-  color: rgb(206,206,207);
-  border-radius: 15px 15px 0 0;
-}
 
 .folderContainer .projectGridEndSection{
   width: 100%;
@@ -747,14 +728,14 @@ input[type=checkbox] {
   border: 1px solid gray;
 }
 
-.projectGridEndSection.opened .folderFile{
-  opacity: 1;
-}
-
-.folderContainer .projectGridEndSection.collapsed{
-  max-height: 20px;
-  padding: 0;
-  transition: 0.5s;
+.bottomPanel{
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(20,20,20,0.5);
+  height: 30%;
+  padding: 10px;
 }
 
 .folderFile{
@@ -918,7 +899,7 @@ input[type=checkbox] {
     grid-column-gap: 50px;
     scroll-snap-type: x proximity;
     grid-template-rows: 70vh;
-    grid-template-columns: repeat(30,calc(100% - 250px));
+    grid-template-columns: repeat(30,100%);
   }
   .projectGridSection{
     scroll-snap-align: center;
@@ -970,6 +951,13 @@ input[type=checkbox] {
   }
   .homeHeader{
     font-size: 6rem;
+  }
+  #viewsRow{
+    overflow-x: scroll;
+    grid-column-gap: 50px;
+    scroll-snap-type: x proximity;
+    grid-template-rows: 70vh;
+    grid-template-columns: repeat(30,calc(70vh * 1.77777778));
   }
   .modal-div{
     width: 90%;

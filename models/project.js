@@ -94,10 +94,13 @@ let projectSchema = new mongoose.Schema({
     ],
     projectView:[
         {
-            src:{
-                type:String
+            content:{
+                type:Array
             },
             title:{
+                type:String
+            },
+            image:{
                 type:String
             }
         }

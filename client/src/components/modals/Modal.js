@@ -12,7 +12,7 @@ import AlertModal from "./AlertModal";
 const Modal = ({closeModal,type,inputData}) => {
     return (
         <div className="modalBackground">
-            <div className="modal-div" style={type === "seeView" ? {width: "90%",height: "90%"} : null}>
+            <div className="modal-div" style={type === "seeView" ? {width: "100%",height: "100%",maxHeight:"100%",maxWidth:"100%"} : null}>
                 <div className="nav justify-content-end">
                     <button type="button" className="btn btn-sm btn-outline-danger" onClick={()=>closeModal()}>X</button>
                 </div>

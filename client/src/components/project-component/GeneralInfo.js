@@ -238,7 +238,7 @@ const GeneralInfo = ({id,project,deleteProject}) => {
                             return(
                                 <div key={uuidv4()} style={{borderRadius: "15px",border: "1px solid gray"}} className="projectViewColumnItem">
                                     <h5>{view.title}</h5>
-                                    <img alt="" src={view.src} onMouseDown={()=>openProjectView(view,i)}/>
+                                    <div style={{width: "100%",height:"300px", backgroundImage:`url(${view.image})`}}/>
                                 </div>
                             )
                         })}
